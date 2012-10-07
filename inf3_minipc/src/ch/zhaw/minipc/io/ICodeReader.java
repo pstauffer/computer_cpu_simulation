@@ -10,5 +10,6 @@ public interface ICodeReader {
 	 * @param path Pfad des zu lesenden Files
 	 * @return Liste mit allen gelesenen Befehlen
 	 */
+	List<String> readParameterFromFile(String path);
 	List<String> readCodeFromFile(String path);
 }

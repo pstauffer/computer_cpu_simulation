@@ -10,4 +10,10 @@ public class CodeReader implements ICodeReader {
 		return null;
 	}
 
+	@Override
+	public List<String> readParameterFromFile(String path) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
