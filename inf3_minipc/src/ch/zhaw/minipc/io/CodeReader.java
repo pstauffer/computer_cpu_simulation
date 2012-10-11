@@ -1,31 +1,37 @@
 package ch.zhaw.minipc.io;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class CodeReader implements ICodeReader {
 
 	@Override
 	public List<String> readCodeFromFile(String path) {
-		List<String> codeFromFile = new ArrayList<String>();
 	    BufferedReader reader = null;
-	    
+		List<String> codeList = new ArrayList<String>();
+
 	    try {
-	      File file = new File(path);
-	      reader = new BufferedReader(new FileReader(file));
+	      InputStream file = ClassLoader.getSystemResourceAsStream(path);
+		  reader = new BufferedReader(new InputStreamReader(file));	    	
 	      String line = reader.readLine();
+	      
+	      int counter = 0;
 	      while (line != null) {
-	    	  codeFromFile.add(line);
-	        line = reader.readLine();
-	      }
-	    } catch (FileNotFoundException e) {
-	      e.printStackTrace();
+	    	  if(line.equals("--CODE--")) {
+	    		  counter++;
+	    	  }
+	    	  if(line.equals("--PARAMETER--")) {
+	    		  counter++;
+	    	  }
+	    	  if(counter == 1 && ! line.equals("")) {
+	    	  codeList.add(line);
+	    	  }
+	    	  line = reader.readLine();
+	    	  }
 	    } catch (IOException e) {
 	      e.printStackTrace();
 	    } finally {
@@ -35,36 +41,50 @@ public class CodeReader implements ICodeReader {
 	        }
 	      } catch (IOException e) {
 	        e.printStackTrace();
-	      }
-	    }
-	      return codeFromFile;
+	        }     
+	}
+	    
+	    codeList.remove(0);
+	      return codeList;
 	}
 
 	@Override
 	public List<String> readParameterFromFile(String path) {
-	      File file = new File(path);
-			List<String> parameterFromFile = new ArrayList<String>();
-	      Scanner scanner;
-		try {
-			scanner = new Scanner(file);
-		      while (scanner.hasNextLine()) {
-		    	  String line = scanner.nextLine();
+	    BufferedReader reader = null;
+		List<String> parameterList = new ArrayList<String>();
 
-		    	  Scanner lineScanner = new Scanner(line);
-		    	  lineScanner.useDelimiter("---");
-		    	  while (lineScanner.hasNext()) {
-
-		    	  String part = lineScanner.next();
-		    	  parameterFromFile.add(part);
-//		    	  System.out.print(part + " ");
-		    	  }
-		   }
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return parameterFromFile;
+	    try {
+	      InputStream file = ClassLoader.getSystemResourceAsStream(path);
+		  reader = new BufferedReader(new InputStreamReader(file));	    	
+	      String line = reader.readLine();
+	      
+	      int counter = 0;
+	      while (line != null) {
+	    	  if(line.equals("--CODE--")) {
+	    		  counter++;
+	    	  }
+	    	  if(line.equals("--PARAMETER--")) {
+	    		  counter++;
+	    	  }
+	    	  if(counter == 2 && ! line.equals("")) {
+	    	  parameterList.add(line);
+	    	  }
+	    	  line = reader.readLine();
+	    	  }
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    } finally {
+	      try {
+	        if (reader != null) {
+	          reader.close();
+	        }
+	      } catch (IOException e) {
+	        e.printStackTrace();
+	        }     
+	}
+	    
+	    parameterList.remove(0);
+	      return parameterList;
 	}
 
 }
