@@ -10,10 +10,12 @@ import ch.zhaw.minipc.commands.Command;
 public class Memory implements IMemory{
 
 	private HashMap<Integer,Command> commandMemory;
-	private String prefix = "ch.zhaw.minipc.commands.";
+	private HashMap<Integer,MemoryCell> dataMemory;
+	private String packageName = "ch.zhaw.minipc.commands.";
 	
 	public Memory(){
 		this.commandMemory = new HashMap<Integer,Command>();
+		this.dataMemory = new HashMap<Integer, MemoryCell>();
 	}
 	
 	private void addCommand(Command newCommand){
@@ -21,13 +23,19 @@ public class Memory implements IMemory{
 	}
 	
 	@Override
-	public Command getMemoryField(int position) {
+	public Command getCommandMemoryField(int position) {
 		// TODO Auto-generated method stub
 		return commandMemory.get(new Integer(position));
 	}
-
+	
 	@Override
-	public void setMemoryField(int position, String data) {
+	public MemoryCell getDataMemoryCell(int position) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void setMemoryField(int position, MemoryCell cell) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -36,38 +44,25 @@ public class Memory implements IMemory{
 	public void initMemory(List<String> commandList, List<String> paramList) {
 		// TODO Auto-generated method stub
 		
-		for(String command : commandList){
-			command = command.split(" ")[0];
-			command = prefix + command;
+		for(String fullCommand : commandList){
+			String commandName = fullCommand.split(" ")[0];
+			String parameter = fullCommand.substring(commandName.length());
+			commandName = packageName + commandName;
 			try {
-				Class cl = Class.forName(command);
+				
+				Class cl = Class.forName(commandName);
 				java.lang.reflect.Constructor co = cl.getConstructor(null);
 				Command newCommand = (Command) co.newInstance(null);
+				newCommand.setParameter(parameter);
 				this.addCommand(newCommand);
-			} catch (ClassNotFoundException e) {
 				
+			} catch (Exception e) {
 				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Befehl ist nicht/falsch implementiert");
 			}
 			
 		}
 	}
+
 	
 }

@@ -10,22 +10,22 @@ import ch.zhaw.minipc.memory.*;
 public class Befehlswerk implements IBefehlswerk{
 	
 	private IMemory memory;
-	private Akku akku;
-	private Register register;
+	private MemoryCell akku;
 	private IBefehlszaehler zaehler;
+	private HashMap<String,MemoryCell> registerList;
 	private HashMap<String,Command> commandList;
 	
-	public Befehlswerk(IMemory memory,Akku akku,Register register,IBefehlszaehler zaehler){
+	public Befehlswerk(IMemory memory,MemoryCell akku,HashMap<String,MemoryCell> registerList,IBefehlszaehler zaehler){
 		this.memory = memory;
 		this.akku = akku;
-		this.register = register;
+		this.registerList = registerList;
 		this.zaehler = zaehler;
 	}
 
 
 	public void excecuteCommand(Command newCommand) {
 
-		newCommand.Excecute(akku, register);
+		newCommand.Excecute(akku, registerList);
 	}
 	
 	

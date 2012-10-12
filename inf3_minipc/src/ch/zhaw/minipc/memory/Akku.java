@@ -1,5 +1,6 @@
 package ch.zhaw.minipc.memory;
 
+//OBSOLETE
 public class Akku {
 	
 	private short content;
