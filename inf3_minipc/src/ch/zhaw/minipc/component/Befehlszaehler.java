@@ -1,8 +1,8 @@
 package ch.zhaw.minipc.component;
 
 public class Befehlszaehler implements IBefehlszaehler{
-	
-	private int position;
+	//Just for test purposes!!!!!!!!
+	private int position = 100;
 	private final int lenght = 1;
 
 	@Override

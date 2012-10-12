@@ -1,13 +1,19 @@
 package ch.zhaw.minipc.memory;
 
+import java.util.List;
+
+import ch.zhaw.minipc.commands.Command;
+
 public interface IMemory {
+	
+	void initMemory(List<String> commandList,List<String> paramList);
 	
 	/**
 	 * Gibt den Wert vom Memory zurück der an der angebenen
 	 * Position gespeichert ist.
 	 * @param position position im Memory von dem der Wert gelesen werden soll
 	 */
-	void getMemoryField(int position);
+	Command getMemoryField(int position);
 	
 	/**
 	 * Schreibt den Wert ins Memory an der angebenen
@@ -16,5 +22,7 @@ public interface IMemory {
 	 * @param data Der Wert der geschrieben werden muss
 	 */
 	void setMemoryField(int position, String data);
+	
+	
 
 }
