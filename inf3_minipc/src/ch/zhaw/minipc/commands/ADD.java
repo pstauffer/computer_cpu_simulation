@@ -15,13 +15,15 @@ public class ADD extends Command {
 	
 	@Override
 	public void excecute(MemoryCell akku,HashMap<String,MemoryCell> registerList,IBefehlszaehler zaehler, IMemory memory){
-		System.out.println(this.getName());
-		System.out.println(this.getParameter());
 		
+		short value =akku.getDezValue();
+		MemoryCell register = registerList.get(this.getParameter());
 		
+		akku.setDezValue((short) (value + register.getDezValue()));
 	}
 	
-	public void updateOpCode(MemoryCell akku,HashMap<String,MemoryCell> registerList,IMemory memory){
+	public void updateOpCode(){
+		
 		
 	}
 

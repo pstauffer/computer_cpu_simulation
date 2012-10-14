@@ -17,11 +17,13 @@ public class Memory implements IMemory{
 	}
 	
 	private void addCommand(Command newCommand){
+		//Index des commandMemorys beginnt bei 100
 		this.commandMemory.put(this.commandMemory.size()+100,newCommand);
 	}
 	
 	public void addData(String data){
-		this.dataMemory.put(this.dataMemory.size()+500, new MemoryCell(Integer.parseInt(data)));
+		//Index des dataMemory beginnt bei 500
+		this.dataMemory.put(this.dataMemory.size()+500, new MemoryCell(Short.parseShort(data)));
 	}
 	
 	@Override
@@ -39,7 +41,7 @@ public class Memory implements IMemory{
 	}
 
 	public void initMemory(List<String> commandList, List<String> paramList) {
-		
+
 		for(String fullCommand : commandList){
 			String commandName = fullCommand.split(" ")[0];
 			String parameter = fullCommand.substring(commandName.length()+1);

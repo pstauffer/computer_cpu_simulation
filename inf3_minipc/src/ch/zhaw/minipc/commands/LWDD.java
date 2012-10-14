@@ -30,8 +30,7 @@ public class LWDD extends Command{
 		registerList.put(registerName, register);
 	}
 
-	public void updateOpCode(MemoryCell akku,
-			HashMap<String, MemoryCell> registerList, IMemory memory) {
+	public void updateOpCode() {
 
 	}
 

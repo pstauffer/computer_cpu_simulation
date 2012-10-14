@@ -34,7 +34,7 @@ public class CPU {
 		
 		this.werk = new Befehlswerk(memory, akku, registerList, counter);
 		
-		paramList.add("120");
+		paramList.add("-200");
 		commandList.add("LWDD R1, #500");
 		commandList.add("ADD R1");
 		

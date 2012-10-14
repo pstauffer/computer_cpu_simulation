@@ -2,25 +2,26 @@ package ch.zhaw.minipc.memory;
 
 
 public class MemoryCell {
-	private int dezValue;
-	private int binValue;
+	private short dezValue;
+	private String binValue;
 	
 	public MemoryCell(){};
 	
-	public MemoryCell(int value){
+	public MemoryCell(short value){
 		this.dezValue = value;
+		this.binValue = Integer.toBinaryString(value);
 	}
 	
-	public int getDezValue() {
+	public short getDezValue() {
 		return dezValue;
 	}
-	public void setDezValue(int dezValue) {
-		this.dezValue = dezValue;
+	public void setDezValue(short i) {
+		this.dezValue = i;
 	}
-	public int getBinValue() {
+	public String getBinValue() {
 		return binValue;
 	}
-	public void setBinValue(int binValue) {
+	public void setBinValue(String binValue) {
 		this.binValue = binValue;
 	}
 	

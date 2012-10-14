@@ -13,7 +13,7 @@ public abstract class Command {
 	private String parameter;
 	
 	public abstract void excecute(MemoryCell akku,HashMap<String,MemoryCell> registerList,IBefehlszaehler zaehler, IMemory memory);
-	public abstract void updateOpCode(MemoryCell akku,HashMap<String,MemoryCell> registerList,IMemory memory);
+	public abstract void updateOpCode();
 
 	protected String getName() {
 		return name;
@@ -37,6 +37,7 @@ public abstract class Command {
 
 	public void setParameter(String parameter) {
 		this.parameter = parameter;
+		this.updateOpCode();
 	}
 	
 }
