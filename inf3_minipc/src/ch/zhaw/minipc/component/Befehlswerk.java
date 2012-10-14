@@ -25,7 +25,7 @@ public class Befehlswerk implements IBefehlswerk{
 
 	public void excecuteCommand(Command newCommand) {
 
-		newCommand.Excecute(akku, registerList);
+		newCommand.Excecute(akku, registerList, zaehler,memory);
 	}
 	
 	

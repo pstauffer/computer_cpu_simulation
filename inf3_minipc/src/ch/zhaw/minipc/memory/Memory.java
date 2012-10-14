@@ -46,13 +46,14 @@ public class Memory implements IMemory{
 		
 		for(String fullCommand : commandList){
 			String commandName = fullCommand.split(" ")[0];
-			String parameter = fullCommand.substring(commandName.length());
+			String parameter = fullCommand.substring(commandName.length()+1);
 			commandName = packageName + commandName;
 			try {
 				
 				Class cl = Class.forName(commandName);
 				java.lang.reflect.Constructor co = cl.getConstructor(null);
 				Command newCommand = (Command) co.newInstance(null);
+				
 				newCommand.setParameter(parameter);
 				this.addCommand(newCommand);
 				

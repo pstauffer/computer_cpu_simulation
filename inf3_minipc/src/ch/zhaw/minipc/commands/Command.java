@@ -11,7 +11,7 @@ public abstract class Command {
 	private String opCode;
 	private String parameter;
 	
-	public abstract void Excecute(MemoryCell akku,HashMap<String,MemoryCell> registerList);
+	public abstract void Excecute(MemoryCell akku,HashMap<String,MemoryCell> registerList,IBefehlszaehler zaehler, IMemory memory);
 
 	protected String getName() {
 		return name;

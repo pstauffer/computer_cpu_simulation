@@ -27,8 +27,6 @@ public class CPU {
 		
 		this.counter = new Befehlszaehler();
 		
-		
-		
 		this.werk = new Befehlswerk(memory, akku, registerList, counter);
 		
 		commandList.add("ADD R1");
