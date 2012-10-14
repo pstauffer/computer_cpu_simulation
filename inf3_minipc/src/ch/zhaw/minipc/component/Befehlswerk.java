@@ -1,11 +1,10 @@
 package ch.zhaw.minipc.component;
 
 import java.util.HashMap;
-import java.util.Map;
 
-import ch.zhaw.minipc.commands.ADD;
 import ch.zhaw.minipc.commands.Command;
-import ch.zhaw.minipc.memory.*;
+import ch.zhaw.minipc.memory.IMemory;
+import ch.zhaw.minipc.memory.MemoryCell;
 
 public class Befehlswerk implements IBefehlswerk{
 	

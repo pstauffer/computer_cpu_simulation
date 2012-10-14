@@ -1,10 +1,8 @@
 package ch.zhaw.minipc.memory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.zhaw.minipc.commands.ADD;
 import ch.zhaw.minipc.commands.Command;
 
 public class Memory implements IMemory{
@@ -22,34 +20,33 @@ public class Memory implements IMemory{
 		this.commandMemory.put(this.commandMemory.size()+100,newCommand);
 	}
 	
+	private void addData(String data){
+		this.dataMemory.put(this.dataMemory.size()+500, new MemoryCell(Integer.parseInt(data)));
+	}
+	
 	@Override
 	public Command getCommandMemoryField(int position) {
-		// TODO Auto-generated method stub
 		return commandMemory.get(new Integer(position));
 	}
 	
 	@Override
 	public MemoryCell getDataMemoryCell(int position) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	@Override
 	public void setMemoryField(int position, MemoryCell cell) {
-		// TODO Auto-generated method stub
 		
 	}
+	
+	
 
-	@Override
 	public void initMemory(List<String> commandList, List<String> paramList) {
-		// TODO Auto-generated method stub
 		
 		for(String fullCommand : commandList){
 			String commandName = fullCommand.split(" ")[0];
 			String parameter = fullCommand.substring(commandName.length()+1);
 			commandName = packageName + commandName;
 			try {
-				
 				Class cl = Class.forName(commandName);
 				java.lang.reflect.Constructor co = cl.getConstructor(null);
 				Command newCommand = (Command) co.newInstance(null);

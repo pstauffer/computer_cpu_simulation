@@ -1,10 +1,15 @@
 package ch.zhaw.minipc.memory;
 
-import ch.zhaw.minipc.commands.Command;
 
 public class MemoryCell {
 	private int dezValue;
 	private int binValue;
+	
+	public MemoryCell(){};
+	
+	public MemoryCell(int value){
+		this.dezValue = value;
+	}
 	
 	public int getDezValue() {
 		return dezValue;

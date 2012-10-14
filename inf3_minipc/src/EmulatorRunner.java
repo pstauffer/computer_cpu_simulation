@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.zhaw.minipc.base.CPU;
-import ch.zhaw.minipc.io.CodeReader;
 
 
 public class EmulatorRunner {
