@@ -14,14 +14,14 @@ public class ADD extends Command {
 	}
 	
 	@Override
-	public void Excecute(MemoryCell akku,HashMap<String,MemoryCell> registerList,IBefehlszaehler zaehler, IMemory memory){
+	public void excecute(MemoryCell akku,HashMap<String,MemoryCell> registerList,IBefehlszaehler zaehler, IMemory memory){
 		System.out.println(this.getName());
 		System.out.println(this.getParameter());
 		
 		
 	}
 	
-	private void updateOpCode(MemoryCell akku,HashMap<String,MemoryCell> registerList,IMemory memory){
+	public void updateOpCode(MemoryCell akku,HashMap<String,MemoryCell> registerList,IMemory memory){
 		
 	}
 

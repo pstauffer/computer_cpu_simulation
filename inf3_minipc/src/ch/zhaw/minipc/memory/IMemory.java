@@ -38,6 +38,8 @@ public interface IMemory {
 	 */
 	void setMemoryField(int position, MemoryCell cell);
 	
+	void addData(String data);
 	
+	int getCommandMemorySize();
 
 }

@@ -34,6 +34,8 @@ public class CPU {
 		
 		this.werk = new Befehlswerk(memory, akku, registerList, counter);
 		
+		paramList.add("120");
+		commandList.add("LWDD R1, #500");
 		commandList.add("ADD R1");
 		
 		memory.initMemory(commandList, paramList);
@@ -41,14 +43,17 @@ public class CPU {
 	
 	
 	public void startEmulator(){
-		
-			int position = counter.getPosition();
-			
-			Command command = memory.getCommandMemoryField(position);
-			
-			werk.excecuteCommand(command);
-			
-		
+			int i = 0;
+			while(i < memory.getCommandMemorySize()){
+				int position = counter.getPosition();
+				
+				Command command = memory.getCommandMemoryField(position);
+				
+				werk.excecuteCommand(command);
+				counter.incrementBefehlszaehler();
+				i++;
+			}
+					
 	}
 	
 

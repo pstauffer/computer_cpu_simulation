@@ -20,7 +20,7 @@ public class Memory implements IMemory{
 		this.commandMemory.put(this.commandMemory.size()+100,newCommand);
 	}
 	
-	private void addData(String data){
+	public void addData(String data){
 		this.dataMemory.put(this.dataMemory.size()+500, new MemoryCell(Integer.parseInt(data)));
 	}
 	
@@ -31,7 +31,7 @@ public class Memory implements IMemory{
 	
 	@Override
 	public MemoryCell getDataMemoryCell(int position) {
-		return null;
+		return dataMemory.get(new Integer(position));
 	}
 	
 	public void setMemoryField(int position, MemoryCell cell) {
@@ -60,6 +60,14 @@ public class Memory implements IMemory{
 			}
 			
 		}
+		
+		for(String param : paramList){
+			this.addData(param);
+		}
+	}
+
+	public int getCommandMemorySize() {
+		return this.commandMemory.size();
 	}
 
 	
