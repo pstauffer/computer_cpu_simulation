@@ -1,6 +1,8 @@
 package ch.zhaw.minipc.io;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,8 +17,10 @@ public class CodeReader implements ICodeReader {
 		List<String> codeList = new ArrayList<String>();
 
 	    try {
-	      InputStream file = ClassLoader.getSystemResourceAsStream(path);
-		  reader = new BufferedReader(new InputStreamReader(file));	    	
+//	      InputStream file = ClassLoader.getSystemResourceAsStream(path);
+//		  reader = new BufferedReader(new InputStreamReader(file));	   
+	    	File file = new File(path);
+	    	reader = new BufferedReader(new FileReader(file));
 	      String line = reader.readLine();
 	      
 	      int counter = 0;
@@ -54,8 +58,10 @@ public class CodeReader implements ICodeReader {
 		List<String> parameterList = new ArrayList<String>();
 
 	    try {
-	      InputStream file = ClassLoader.getSystemResourceAsStream(path);
-		  reader = new BufferedReader(new InputStreamReader(file));	    	
+//	      InputStream file = ClassLoader.getSystemResourceAsStream(path);
+//		  reader = new BufferedReader(new InputStreamReader(file));	
+	    	File file = new File(path);
+	    	reader = new BufferedReader(new FileReader(file));
 	      String line = reader.readLine();
 	      
 	      int counter = 0;
