@@ -37,8 +37,6 @@ public class Memory implements IMemory{
 	public void setMemoryField(int position, MemoryCell cell) {
 		
 	}
-	
-	
 
 	public void initMemory(List<String> commandList, List<String> paramList) {
 		

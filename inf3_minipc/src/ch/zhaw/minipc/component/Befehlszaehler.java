@@ -12,7 +12,7 @@ public class Befehlszaehler implements IBefehlszaehler{
 
 	@Override
 	public void decrementBefehlszaehler() {
-
+		position--;
 	}
 
 	@Override

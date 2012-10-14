@@ -28,7 +28,6 @@ public class LWDD extends Command{
 		register = cell;
 		
 		registerList.put(registerName, register);
-		
 	}
 
 	public void updateOpCode(MemoryCell akku,
