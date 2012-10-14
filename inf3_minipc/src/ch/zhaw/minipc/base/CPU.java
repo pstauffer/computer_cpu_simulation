@@ -34,10 +34,6 @@ public class CPU {
 		
 		this.werk = new Befehlswerk(memory, akku, registerList, counter);
 		
-		paramList.add("-200");
-		commandList.add("LWDD R1, #500");
-		commandList.add("ADD R1");
-		
 		memory.initMemory(commandList, paramList);
 	}
 	
@@ -53,6 +49,8 @@ public class CPU {
 				counter.incrementBefehlszaehler();
 				i++;
 			}
+			
+			System.out.println(akku.getDezValue());
 					
 	}
 	

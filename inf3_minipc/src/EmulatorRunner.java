@@ -13,11 +13,14 @@ public class EmulatorRunner {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		CPU cpu = new CPU();
-        CodeReader blubb  = new CodeReader();
-        System.out.println(blubb.readCodeFromFile("/Users/pascal/Downloads/blubb.txt").toString());
-        System.out.println(blubb.readParameterFromFile("/Users/pascal/Downloads/blubb.txt").toString());
+        CodeReader reader  = new CodeReader();
+        
 		List<String> codeList = new ArrayList<String>();
 		List<String> paramList = new ArrayList<String>();
+        
+		codeList = reader.readCodeFromFile("./data/test_small.txt");
+		paramList = reader.readParameterFromFile("./data/test_small.txt");
+
 		cpu.init(codeList,paramList);
 		cpu.startEmulator();
 	}
