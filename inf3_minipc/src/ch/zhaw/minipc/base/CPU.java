@@ -15,15 +15,16 @@ import ch.zhaw.minipc.memory.IMemory;
 import ch.zhaw.minipc.memory.Memory;
 import ch.zhaw.minipc.memory.MemoryCell;
 
-public class CPU extends Observable{
+public class CPU extends Observable implements Runnable{
 	
 	private MemoryCell akku;
 	private IMemory memory;
 	private IBefehlszaehler counter;
 	private IBefehlswerk werk;
 	private HashMap<String,MemoryCell> registerList;
+	private RunModes runMode;
 	
-	public CPU(String path){
+	public CPU(String path,RunModes runMode){
         CodeReader reader  = new CodeReader();
         
 		List<String> codeList = new ArrayList<String>();
@@ -31,12 +32,12 @@ public class CPU extends Observable{
         
 		codeList = reader.readCodeFromFile(path);
 		paramList = reader.readParameterFromFile(path);
-		
+		this.runMode = runMode;
 		this.init(codeList, paramList);
 	}
 
 	
-	public void init(List<String> commandList,List<String> paramList){
+	private void init(List<String> commandList,List<String> paramList){
 		this.akku = new MemoryCell();
 		this.memory = new Memory();
 		this.registerList = new HashMap<String, MemoryCell>();
@@ -53,8 +54,10 @@ public class CPU extends Observable{
 	}
 	
 	
-	public void startEmulator(RunModes mode){
+	public void startEmulator(){
 			int i = 0;
+			ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+			
 			while(i < memory.getCommandMemorySize()){
 				int position = counter.getPosition();
 				
@@ -63,16 +66,31 @@ public class CPU extends Observable{
 				werk.excecuteCommand(command);
 				counter.incrementBefehlszaehler();
 				i++;
-				/*if(mode == RunModes.STEP){
-					this.notifyObservers(arg0);
-				}else if(mode == RunModes.SLOW){
-					this.notifyObservers(arg0);
-				}*/
+				
+				if(runMode == RunModes.STEP){
+					this.setChanged();
+					this.notifyObservers(returnValues);
+				}else if(runMode == RunModes.SLOW){
+					try {
+						//TODO: set time dynamically
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						
+						e.printStackTrace();
+					}
+					this.setChanged();
+					this.notifyObservers(returnValues);
+				}
 			}
-			
-			//this.notifyObservers(arg);
+			this.setChanged();
+			this.notifyObservers(returnValues);
 			
 			System.out.println(akku.getDezValue());		
+	}
+	
+	
+	public void run() {
+		this.startEmulator();
 	}
 	
 
