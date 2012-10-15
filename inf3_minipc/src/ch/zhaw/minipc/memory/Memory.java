@@ -41,10 +41,16 @@ public class Memory implements IMemory{
 	}
 
 	public void initMemory(List<String> commandList, List<String> paramList) {
-
+		
 		for(String fullCommand : commandList){
+			String[] fullCommandArray = fullCommand.split(" ");
 			String commandName = fullCommand.split(" ")[0];
-			String parameter = fullCommand.substring(commandName.length()+1);
+			String parameter = null;
+			
+			if(fullCommandArray.length>1){
+				parameter = fullCommand.substring(commandName.length()+1);
+			}
+			
 			commandName = packageName + commandName;
 			try {
 				Class cl = Class.forName(commandName);

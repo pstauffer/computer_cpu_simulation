@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.zhaw.minipc.base.CPU;
+import ch.zhaw.minipc.base.RunModes;
 import ch.zhaw.minipc.io.CodeReader;
 
 
@@ -12,17 +13,9 @@ public class EmulatorRunner {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		CPU cpu = new CPU();
-        CodeReader reader  = new CodeReader();
-        
-		List<String> codeList = new ArrayList<String>();
-		List<String> paramList = new ArrayList<String>();
-        
-		codeList = reader.readCodeFromFile("./data/test_small.txt");
-		paramList = reader.readParameterFromFile("./data/test_small.txt");
+		CPU cpu = new CPU("./data/test_small.txt");
 
-		cpu.init(codeList,paramList);
-		cpu.startEmulator();
+		cpu.startEmulator(RunModes.AUTO);
 	}
 
 }
