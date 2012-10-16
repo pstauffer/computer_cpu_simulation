@@ -4,8 +4,11 @@ import java.awt.EventQueue;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.base.ReturnValues;
@@ -15,6 +18,7 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
+import javax.swing.JMenuBar;
 
 public class EmulatorGUI implements Observer{
 
@@ -22,6 +26,11 @@ public class EmulatorGUI implements Observer{
 	private EmulatorGUI emuGui;
 	private RunModes mode;
 	private JTextField txtResult;
+	private Thread emuThread;
+	private CPU cpu;
+	
+	private JButton btnStep;
+	private JButton btnStart;
 
 	/**
 	 * Create the application.
@@ -39,33 +48,68 @@ public class EmulatorGUI implements Observer{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton btnStart = new JButton("Start");
-		
+		btnStart = new JButton("Start");		
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			//TODO Take path from filechooser	
-			emuGui.startEmulation("");
+				emuGui.startEmulation();
 			}
 		});
-		
-		btnStart.setBounds(20, 29, 117, 29);
+		btnStart.setBounds(6, 6, 117, 29);
+		btnStart.setEnabled(false);
 		frame.getContentPane().add(btnStart);
 		
 		txtResult = new JTextField();
-		txtResult.setBounds(118, 138, 134, 28);
+		txtResult.setBounds(247, 5, 134, 28);
+		txtResult.setEditable(false);
 		frame.getContentPane().add(txtResult);
 		txtResult.setColumns(10);
+		
+		btnStep = new JButton("Step");
+		btnStep.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				synchronized (this) {
+					cpu.proceed();
+				}
+			}
+		});
+		btnStep.setBounds(118, 6, 117, 29);
+		btnStep.setEnabled(false);
+		frame.getContentPane().add(btnStep);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		//Build the first menu.
+		JMenu menu = new JMenu("Emulator");
+		menuBar.add(menu);
+		
+		JMenuItem menuItem = new JMenuItem("Initialize");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				initCPU();	
+			}
+		});
+		menu.add(menuItem);
 		
 		this.emuGui = this;
         frame.setVisible(true);
 	}
 	
-	public void startEmulation(String filepath){
+	public void initCPU(){
+	    JFileChooser chooser = new JFileChooser();
+	    int returnVal = chooser.showOpenDialog(this.frame);
+	    
+	    if(returnVal == JFileChooser.APPROVE_OPTION) {
+	    	this.cpu = new CPU(chooser.getSelectedFile().getPath());
+			cpu.addObserver(emuGui);
+			
+			btnStart.setEnabled(true);
+	    }
+	}
+	
+	public void startEmulation(){
+		mode = RunModes.AUTO;
 		
-		mode = RunModes.SLOW;
-		CPU cpu = new CPU("./data/test_small.txt", mode);
-		cpu.addObserver(emuGui);
-		
+		cpu.setRunMode(mode);
 		
 		switch(mode){
 			case AUTO:
@@ -75,12 +119,10 @@ public class EmulatorGUI implements Observer{
 				new Thread(cpu).start();
 				break;
 			case STEP:
-				cpu.startEmulator();
+				this.emuThread = new Thread(cpu);
+				this.emuThread.start();
 				break;
-		}
-		
-		
-		
+		}	
 	}
 	
 	@Override
@@ -89,5 +131,11 @@ public class EmulatorGUI implements Observer{
 		String resultText = Integer.toString(returnSet.getAkku().getDezValue());
 		this.txtResult.setText(resultText);
 		this.frame.repaint();
+		
+		if(mode==RunModes.AUTO||mode==RunModes.SLOW){
+
+		}else if(mode == RunModes.STEP){
+			this.cpu.pause();
+		}
 	}
 }

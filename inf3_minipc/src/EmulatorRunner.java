@@ -14,8 +14,8 @@ public class EmulatorRunner {
 	 */
 	public static void main(String[] args) {
 		//Test without GUI
-		//CPU cpu = new CPU("./data/test_small.txt");
-		//cpu.startEmulator(RunModes.AUTO);
+		//CPU cpu = new CPU("./data/test_small.txt",runModes.AUTO);
+		//cpu.startAutoEmulator();
 		new EmulatorGUI();
 	}
 

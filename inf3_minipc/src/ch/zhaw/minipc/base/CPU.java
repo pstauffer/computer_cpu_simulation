@@ -22,9 +22,11 @@ public class CPU extends Observable implements Runnable{
 	private IBefehlszaehler counter;
 	private IBefehlswerk werk;
 	private HashMap<String,MemoryCell> registerList;
-	private RunModes runMode;
+	private RunModes runMode = RunModes.AUTO;
+	private boolean fPause = false;
+	private ReturnValues initValues;
 	
-	public CPU(String path,RunModes runMode){
+	public CPU(String path){
         CodeReader reader  = new CodeReader();
         
 		List<String> codeList = new ArrayList<String>();
@@ -32,7 +34,6 @@ public class CPU extends Observable implements Runnable{
         
 		codeList = reader.readCodeFromFile(path);
 		paramList = reader.readParameterFromFile(path);
-		this.runMode = runMode;
 		this.init(codeList, paramList);
 	}
 
@@ -51,49 +52,104 @@ public class CPU extends Observable implements Runnable{
 		this.werk = new Befehlswerk(memory, akku, registerList, counter);
 		
 		memory.initMemory(commandList, paramList);
-	}
-	
-	
-	public void startEmulator(){
-			int i = 0;
-			ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i);
-			
-			while(i < memory.getCommandMemorySize()){
-				int position = counter.getPosition();
-				
-				Command command = memory.getCommandMemoryField(position);
-				
-				werk.excecuteCommand(command);
-				counter.incrementBefehlszaehler();
-				i++;
-				
-				if(runMode == RunModes.STEP){
-					this.setChanged();
-					this.notifyObservers(returnValues);
-				}else if(runMode == RunModes.SLOW){
-					try {
-						//TODO: set time dynamically
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						
-						e.printStackTrace();
-					}
-					this.setChanged();
-					this.notifyObservers(returnValues);
-				}
-			}
-			this.setChanged();
-			this.notifyObservers(returnValues);
-			
-			System.out.println(akku.getDezValue());		
-	}
-	
-	
-	public void run() {
-		this.startEmulator();
+		int i = 0;
+		initValues = new ReturnValues(memory, counter, registerList, akku,i);
 	}
 	
 
+	public void startAutoEmulator(){
+		int i = 0;
+		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+
+		while(i < memory.getCommandMemorySize()){
+			int position = counter.getPosition();
+
+			Command command = memory.getCommandMemoryField(position);
+
+			werk.excecuteCommand(command);
+			counter.incrementBefehlszaehler();
+			i++;
+
+			if(runMode == RunModes.STEP){
+				this.setChanged();
+				this.notifyObservers(returnValues);
+			}else if(runMode == RunModes.SLOW){
+				try {
+					//TODO: set time dynamically
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+
+					e.printStackTrace();
+				}
+				this.setChanged();
+				this.notifyObservers(returnValues);
+			}
+		}
+		this.setChanged();
+		this.notifyObservers(returnValues);
+
+		System.out.println(akku.getDezValue());		
+	}
 	
+	
+	private void startStepEmulator(){
+
+		int i = 0;
+		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+
+		while(i < memory.getCommandMemorySize()){
+			int position = counter.getPosition();
+
+			Command command = memory.getCommandMemoryField(position);
+
+			werk.excecuteCommand(command);
+			//Todo find out the right place for this, to get the actual infos in the gui
+			counter.incrementBefehlszaehler();
+			i++;
+			this.setChanged();
+			this.notifyObservers(returnValues);
+			
+			synchronized (this) {
+				while (fPause) {
+					try {
+						wait();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+
+		}
+	}
+
+	public void run() {
+		if(this.runMode == RunModes.STEP){
+			this.startStepEmulator();
+		}else{
+			this.startAutoEmulator();
+		}
+		
+	}
+
+	public void pause() {
+		fPause = true;
+	}
+
+	public void proceed() {
+		fPause = false;
+		synchronized (this) {
+			notify();
+		}
+	}
+
+	public ReturnValues getInitialConifg(){
+		return this.initValues;
+	}
+
+
+	public void setRunMode(RunModes runMode) {
+		this.runMode = runMode;
+	}
 
 }
