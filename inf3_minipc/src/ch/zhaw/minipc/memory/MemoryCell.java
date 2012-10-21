@@ -1,5 +1,7 @@
 package ch.zhaw.minipc.memory;
 
+import ch.zhaw.minipc.util.Tools;
+
 
 public class MemoryCell {
 	private short dezValue;
@@ -9,7 +11,7 @@ public class MemoryCell {
 	
 	public MemoryCell(short value){
 		this.dezValue = value;
-		this.binValue = Integer.toBinaryString(value);
+		this.setBinValue(Tools.convertToBin(value, 16));
 	}
 	
 	public short getDezValue() {
@@ -17,6 +19,7 @@ public class MemoryCell {
 	}
 	public void setDezValue(short i) {
 		this.dezValue = i;
+		this.setBinValue(Tools.convertToBin(i, 16));
 	}
 	public String getBinValue() {
 		return binValue;

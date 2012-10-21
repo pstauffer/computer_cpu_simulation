@@ -25,6 +25,7 @@ public class CPU extends Observable implements Runnable{
 	private RunModes runMode = RunModes.AUTO;
 	private boolean fPause = false;
 	private ReturnValues initValues;
+	private static boolean carryFlag = false;
 	
 	public CPU(String path){
         CodeReader reader  = new CodeReader();
@@ -150,6 +151,16 @@ public class CPU extends Observable implements Runnable{
 
 	public void setRunMode(RunModes runMode) {
 		this.runMode = runMode;
+	}
+
+
+	public static boolean getCarryFlag() {
+		return carryFlag;
+	}
+
+
+	public static void setCarryFlag(boolean carryFlag) {
+		CPU.carryFlag = carryFlag;
 	}
 
 }

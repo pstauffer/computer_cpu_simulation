@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
 import javax.swing.JMenuBar;
+import javax.swing.JTable;
 
 public class EmulatorGUI implements Observer{
 
@@ -31,6 +32,8 @@ public class EmulatorGUI implements Observer{
 	
 	private JButton btnStep;
 	private JButton btnStart;
+	private JTable tableCommandMemory;
+	private JTextField txtCommandCounter;
 
 	/**
 	 * Create the application.
@@ -75,6 +78,17 @@ public class EmulatorGUI implements Observer{
 		btnStep.setBounds(118, 6, 117, 29);
 		btnStep.setEnabled(false);
 		frame.getContentPane().add(btnStep);
+		
+		tableCommandMemory = new JTable();
+		tableCommandMemory.setRowSelectionAllowed(false);
+		tableCommandMemory.setBounds(22, 78, 159, 252);
+		frame.getContentPane().add(tableCommandMemory);
+		
+		txtCommandCounter = new JTextField();
+		txtCommandCounter.setEditable(false);
+		txtCommandCounter.setColumns(10);
+		txtCommandCounter.setBounds(16, 38, 134, 28);
+		frame.getContentPane().add(txtCommandCounter);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -130,10 +144,12 @@ public class EmulatorGUI implements Observer{
 		ReturnValues returnSet = (ReturnValues)arg1;
 		String resultText = Integer.toString(returnSet.getAkku().getDezValue());
 		this.txtResult.setText(resultText);
+		
+		
 		this.frame.repaint();
 		
 		if(mode==RunModes.AUTO||mode==RunModes.SLOW){
-
+			
 		}else if(mode == RunModes.STEP){
 			this.cpu.pause();
 		}
