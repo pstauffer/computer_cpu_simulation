@@ -16,10 +16,10 @@ public class ADD extends Command {
 	@Override
 	public void excecute(MemoryCell akku,HashMap<String,MemoryCell> registerList,IBefehlszaehler zaehler, IMemory memory){
 		
-		short value =akku.getDezValue();
+		int value =akku.getDezValue();
 		MemoryCell register = registerList.get(this.getParameter());
 		
-		akku.setDezValue((short) (value + register.getDezValue()));
+		akku.setDezValue(value + register.getDezValue());
 	}
 	
 	public void updateOpCode(){

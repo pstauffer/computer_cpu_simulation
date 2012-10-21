@@ -18,8 +18,8 @@ public class SRA extends Command {
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
 
-		short value = akku.getDezValue();
-		akku.setDezValue((short) (value / 2));
+		int value = akku.getDezValue();
+		akku.setDezValue(value / 2);
 
 	}
 

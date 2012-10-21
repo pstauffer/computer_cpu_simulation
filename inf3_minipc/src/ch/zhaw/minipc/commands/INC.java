@@ -18,8 +18,8 @@ public class INC extends Command {
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
 
-		short value = akku.getDezValue();
-		akku.setDezValue((short) (value + 1));
+		int value = akku.getDezValue();
+		akku.setDezValue(value + 1);
 
 	}
 

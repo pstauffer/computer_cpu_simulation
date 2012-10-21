@@ -23,7 +23,7 @@ public class Memory implements IMemory{
 	
 	public void addData(String data){
 		//Index des dataMemory beginnt bei 500
-		this.dataMemory.put(this.dataMemory.size()+500, new MemoryCell(Short.parseShort(data)));
+		this.dataMemory.put(this.dataMemory.size()+500, new MemoryCell(Integer.parseInt(data)));
 	}
 	
 	@Override

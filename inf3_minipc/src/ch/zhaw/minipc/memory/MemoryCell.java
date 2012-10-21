@@ -4,20 +4,20 @@ import ch.zhaw.minipc.util.Tools;
 
 
 public class MemoryCell {
-	private short dezValue;
+	private int dezValue;
 	private String binValue;
 	
 	public MemoryCell(){};
 	
-	public MemoryCell(short value){
+	public MemoryCell(int value){
 		this.dezValue = value;
 		this.setBinValue(Tools.convertToBin(value, 16));
 	}
 	
-	public short getDezValue() {
+	public int getDezValue() {
 		return dezValue;
 	}
-	public void setDezValue(short i) {
+	public void setDezValue(int i) {
 		this.dezValue = i;
 		this.setBinValue(Tools.convertToBin(i, 16));
 	}
