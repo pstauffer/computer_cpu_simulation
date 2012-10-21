@@ -1,25 +1,22 @@
 package ch.zhaw.minipc.presentation;
 
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JButton;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.base.ReturnValues;
 import ch.zhaw.minipc.base.RunModes;
-import javax.swing.JTextField;
-import javax.swing.AbstractAction;
-import java.awt.event.ActionEvent;
-import javax.swing.Action;
-import java.awt.event.ActionListener;
-import javax.swing.JMenuBar;
-import javax.swing.JTable;
 
 public class EmulatorGUI implements Observer{
 
@@ -109,7 +106,7 @@ public class EmulatorGUI implements Observer{
 	}
 	
 	public void initCPU(){
-	    JFileChooser chooser = new JFileChooser();
+	    JFileChooser chooser = new JFileChooser("./data");
 	    int returnVal = chooser.showOpenDialog(this.frame);
 	    
 	    if(returnVal == JFileChooser.APPROVE_OPTION) {
