@@ -8,6 +8,9 @@ import ch.zhaw.minipc.memory.MemoryCell;
 
 public abstract class Command {
 	
+	public final int MAX = 32768;
+	public final int MIN = -32768;
+	
 	private String name;
 	private String opCode;
 	private String parameter;

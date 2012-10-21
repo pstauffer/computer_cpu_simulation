@@ -20,7 +20,6 @@ public class DEC extends Command {
 
 		short value = akku.getDezValue();
 		akku.setDezValue((short) (value - 1));
-
 	}
 
 	@Override
