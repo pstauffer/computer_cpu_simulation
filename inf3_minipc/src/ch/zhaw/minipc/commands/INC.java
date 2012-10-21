@@ -2,6 +2,7 @@ package ch.zhaw.minipc.commands;
 
 import java.util.HashMap;
 
+import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.component.IBefehlszaehler;
 import ch.zhaw.minipc.memory.IMemory;
 import ch.zhaw.minipc.memory.MemoryCell;
@@ -19,7 +20,20 @@ public class INC extends Command {
 			IMemory memory) {
 
 		int value = akku.getDezValue();
-		akku.setDezValue(value + 1);
+
+		// calculate
+		int result = value + 1;
+
+		// checks for carry flag
+		if (result >= this.MAX) {
+			CPU.setCarryFlag(true);
+		}
+		if (result <= this.MIN) {
+			CPU.setCarryFlag(true);
+		}
+
+		// set the new value
+		akku.setDezValue(result);
 
 	}
 
