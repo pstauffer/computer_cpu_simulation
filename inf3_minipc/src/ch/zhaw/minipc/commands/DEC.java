@@ -35,8 +35,6 @@ public class DEC extends Command {
 		// set the new value
 		akku.setDezValue(result);
 
-		System.out.println(CPU.getCarryFlag());
-
 	}
 
 	@Override
