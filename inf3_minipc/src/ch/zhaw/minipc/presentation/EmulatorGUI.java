@@ -35,13 +35,21 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class EmulatorGUI implements Observer{
 
 	private JFrame frame;
 	private EmulatorGUI emuGui;
 	private RunModes mode;
-	private JTextField txtResult;
+	private JTextField txtResultDez;
 	private Thread emuThread;
 	private CPU cpu;
 	
@@ -53,7 +61,17 @@ public class EmulatorGUI implements Observer{
 	private JComboBox comboBox;
 	private JPanel panelRegister;
 	private JLabel lblRegister;
-	private JTextField textField;
+	private JTextField txtRegDez1;
+	private JTextField txtRegBin1;
+	private JTextField txtRegDez2;
+	private JTextField txtRegBin2;
+	private JLabel lblRegister_2;
+	private JTextField txtRegDez3;
+	private JTextField txtRegBin3;
+	private JLabel lblAkku;
+	private JScrollPane scrollPaneMemory;
+	private JTable tableDataMemory;
+	private JTextField txtResultBin;
 
 	/**
 	 * Create the application.
@@ -67,7 +85,7 @@ public class EmulatorGUI implements Observer{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 643, 487);
+		frame.setBounds(100, 100, 920, 487);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
        
@@ -88,10 +106,10 @@ public class EmulatorGUI implements Observer{
         col = tableCommandMemory.getColumnModel().getColumn(2);
         col.setPreferredWidth(150);
         
-		JScrollPane scrollPane = new JScrollPane(tableCommandMemory);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setPreferredSize(new Dimension(310,150));
-		frame.getContentPane().add(scrollPane, BorderLayout.WEST);
+		JScrollPane scrollPaneCommand = new JScrollPane(tableCommandMemory);
+		scrollPaneCommand.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneCommand.setPreferredSize(new Dimension(310,150));
+		frame.getContentPane().add(scrollPaneCommand, BorderLayout.WEST);
 		
 		panelCommandTable = new JPanel();
 		panelCommandTable.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -128,11 +146,6 @@ public class EmulatorGUI implements Observer{
 		});
 		btnStep.setEnabled(false);
 		
-		txtResult = new JTextField();
-		panelCommandTable.add(txtResult);
-		txtResult.setEditable(false);
-		txtResult.setColumns(10);
-		
 		
 		txtCommandCounter = new JTextField();
 		panelCommandTable.add(txtCommandCounter);
@@ -143,11 +156,90 @@ public class EmulatorGUI implements Observer{
 		frame.getContentPane().add(panelRegister, BorderLayout.CENTER);
 		
 		lblRegister = new JLabel("Register 1");
-		panelRegister.add(lblRegister);
+		lblRegister.setBounds(19, 11, 63, 16);
 		
-		textField = new JTextField();
-		panelRegister.add(textField);
-		textField.setColumns(10);
+		txtRegDez1 = new JTextField();
+		txtRegDez1.setEditable(false);
+		txtRegDez1.setBounds(99, 5, 153, 28);
+		txtRegDez1.setColumns(10);
+		panelRegister.setLayout(null);
+		panelRegister.add(lblRegister);
+		panelRegister.add(txtRegDez1);
+		
+		txtRegBin1 = new JTextField();
+		txtRegBin1.setEditable(false);
+		txtRegBin1.setBounds(99, 34, 153, 28);
+		panelRegister.add(txtRegBin1);
+		txtRegBin1.setColumns(10);
+		
+		JLabel lblRegister_1 = new JLabel("Register 2");
+		lblRegister_1.setBounds(19, 82, 63, 16);
+		panelRegister.add(lblRegister_1);
+		
+		txtRegDez2 = new JTextField();
+		txtRegDez2.setEditable(false);
+		txtRegDez2.setBounds(99, 76, 153, 28);
+		panelRegister.add(txtRegDez2);
+		txtRegDez2.setColumns(10);
+		
+		txtRegBin2 = new JTextField();
+		txtRegBin2.setEditable(false);
+		txtRegBin2.setBounds(99, 105, 153, 28);
+		panelRegister.add(txtRegBin2);
+		txtRegBin2.setColumns(10);
+		
+		lblRegister_2 = new JLabel("Register 3");
+		lblRegister_2.setBounds(19, 154, 63, 16);
+		panelRegister.add(lblRegister_2);
+		
+		txtRegDez3 = new JTextField();
+		txtRegDez3.setEditable(false);
+		txtRegDez3.setBounds(99, 148, 153, 28);
+		panelRegister.add(txtRegDez3);
+		txtRegDez3.setColumns(10);
+		
+		txtRegBin3 = new JTextField();
+		txtRegBin3.setEditable(false);
+		txtRegBin3.setBounds(99, 177, 153, 28);
+		panelRegister.add(txtRegBin3);
+		txtRegBin3.setColumns(10);
+		
+		lblAkku = new JLabel("Akku");
+		lblAkku.setBounds(19, 228, 61, 16);
+		panelRegister.add(lblAkku);
+		
+		txtResultDez = new JTextField();
+		txtResultDez.setBounds(99, 222, 153, 28);
+		panelRegister.add(txtResultDez);
+		txtResultDez.setEditable(false);
+		txtResultDez.setColumns(10);
+		
+		txtResultBin = new JTextField();
+		txtResultBin.setEditable(false);
+		txtResultBin.setBounds(99, 250, 153, 28);
+		panelRegister.add(txtResultBin);
+		txtResultBin.setColumns(10);
+		
+        DefaultTableModel modelMemory = new DefaultTableModel();
+        tableDataMemory = new JTable(modelMemory);
+        tableDataMemory.setEnabled(false);
+        tableDataMemory.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+      
+        modelMemory.addColumn("#");
+        modelMemory.addColumn("Value Dez");
+        modelMemory.addColumn("Value Bin");
+        
+        TableColumn colData = tableDataMemory.getColumnModel().getColumn(0);
+        colData.setPreferredWidth(40);
+        colData = tableDataMemory.getColumnModel().getColumn(1);
+        colData.setPreferredWidth(80);
+        colData = tableDataMemory.getColumnModel().getColumn(2);
+        colData.setPreferredWidth(150);
+        
+		JScrollPane scrollPaneMemory = new JScrollPane(tableDataMemory);
+		scrollPaneMemory.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneMemory.setPreferredSize(new Dimension(270,110));
+		frame.getContentPane().add(scrollPaneMemory, BorderLayout.EAST);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -219,11 +311,33 @@ public class EmulatorGUI implements Observer{
 		selectionModel.addSelectionInterval(position,position);
 	}
 	
+	private void updateFields(ReturnValues returnSet){
+		String resultTextDez = Integer.toString(returnSet.getAkku().getDezValue());
+		this.txtResultDez.setText(resultTextDez);
+		String resultTextBin = returnSet.getAkku().getBinValue();
+		this.txtResultBin.setText(resultTextBin);
+		//TODO WORKING POSITION
+		String resultTextDez1 = Integer.toString(returnSet.getRegisterList().get("R1").getDezValue());
+		this.txtRegDez1.setText(resultTextDez1);
+		String resultTextBin1 = returnSet.getRegisterList().get("R1").getBinValue();
+		this.txtResultBin.setText(resultTextBin1);
+		
+		String resultTextDez2 = Integer.toString(returnSet.getRegisterList().get("R2").getDezValue());
+		this.txtRegDez2.setText(resultTextDez2);
+		String resultTextBin2 = returnSet.getRegisterList().get("R2").getBinValue();
+		this.txtResultBin.setText(resultTextBin2);
+		
+		String resultTextDez3 = Integer.toString(returnSet.getRegisterList().get("R3").getDezValue());
+		this.txtRegDez3.setText(resultTextDez3);
+		String resultTextBin3 = returnSet.getRegisterList().get("R3").getBinValue();
+		this.txtResultBin.setText(resultTextBin3);
+		
+	}
+	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		ReturnValues returnSet = (ReturnValues)arg1;
-		String resultText = Integer.toString(returnSet.getAkku().getDezValue());
-		this.txtResult.setText(resultText);
+		this.updateFields(returnSet);
 		
 		if(mode==RunModes.AUTO){
 			
