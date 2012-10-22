@@ -18,7 +18,7 @@ public abstract class Command {
 	public abstract void excecute(MemoryCell akku,HashMap<String,MemoryCell> registerList,IBefehlszaehler zaehler, IMemory memory);
 	public abstract void updateOpCode();
 
-	protected String getName() {
+	public String getName() {
 		return name;
 	}
 
@@ -26,7 +26,7 @@ public abstract class Command {
 		this.name = name;
 	}
 
-	protected String getOpCode() {
+	public String getOpCode() {
 		return opCode;
 	}
 
@@ -41,6 +41,14 @@ public abstract class Command {
 	public void setParameter(String parameter) {
 		this.parameter = parameter;
 		this.updateOpCode();
+	}
+	
+	public String getFullCommand(){
+		if(parameter == null){
+			return name;
+		}
+		return name + " " + parameter;
+		
 	}
 	
 }

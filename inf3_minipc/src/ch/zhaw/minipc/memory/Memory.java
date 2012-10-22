@@ -1,19 +1,20 @@
 package ch.zhaw.minipc.memory;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import ch.zhaw.minipc.commands.Command;
 
 public class Memory implements IMemory{
 
-	private HashMap<Integer,Command> commandMemory;
-	private HashMap<Integer,MemoryCell> dataMemory;
+	private LinkedHashMap<Integer,Command> commandMemory;
+	private LinkedHashMap<Integer,MemoryCell> dataMemory;
 	private String packageName = "ch.zhaw.minipc.commands.";
 	
 	public Memory(){
-		this.commandMemory = new HashMap<Integer,Command>();
-		this.dataMemory = new HashMap<Integer, MemoryCell>();
+		this.commandMemory = new LinkedHashMap<Integer,Command>();
+		this.dataMemory = new LinkedHashMap<Integer, MemoryCell>();
 	}
 	
 	private void addCommand(Command newCommand){
@@ -38,6 +39,14 @@ public class Memory implements IMemory{
 	
 	public void setMemoryField(int position, MemoryCell cell) {
 		
+	}
+	
+	public int getCommandMemorySize() {
+		return this.commandMemory.size();
+	}
+	
+	public LinkedHashMap<Integer,Command> getCommandMemory(){
+		return this.commandMemory;
 	}
 
 	public void initMemory(List<String> commandList, List<String> paramList) {
@@ -71,10 +80,5 @@ public class Memory implements IMemory{
 			this.addData(param);
 		}
 	}
-
-	public int getCommandMemorySize() {
-		return this.commandMemory.size();
-	}
-
 	
 }

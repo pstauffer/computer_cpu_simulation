@@ -68,8 +68,6 @@ public class CPU extends Observable implements Runnable{
 			Command command = memory.getCommandMemoryField(position);
 
 			werk.excecuteCommand(command);
-			counter.incrementBefehlszaehler();
-			i++;
 
 			if(runMode == RunModes.STEP){
 				this.setChanged();
@@ -82,9 +80,14 @@ public class CPU extends Observable implements Runnable{
 
 					e.printStackTrace();
 				}
+				returnValues = new ReturnValues(memory, counter, registerList, akku, i);
 				this.setChanged();
 				this.notifyObservers(returnValues);
 			}
+			
+			counter.incrementBefehlszaehler();
+			i++;
+			
 		}
 		this.setChanged();
 		this.notifyObservers(returnValues);

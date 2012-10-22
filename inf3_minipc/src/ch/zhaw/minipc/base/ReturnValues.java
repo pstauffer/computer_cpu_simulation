@@ -19,6 +19,7 @@ public class ReturnValues {
 		this.counter = counter;
 		this.registerList = registerList;
 		this.akku = akku;
+		this.programCounter = programCounter;
 	}
 	
 	public IMemory getMemory() {

@@ -2,6 +2,8 @@ package ch.zhaw.minipc.presentation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,12 +13,21 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.base.ReturnValues;
 import ch.zhaw.minipc.base.RunModes;
+import ch.zhaw.minipc.commands.Command;
+
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.FlowLayout;
 
 public class EmulatorGUI implements Observer{
 
@@ -29,8 +40,9 @@ public class EmulatorGUI implements Observer{
 	
 	private JButton btnStep;
 	private JButton btnStart;
-	private JTable tableCommandMemory;
 	private JTextField txtCommandCounter;
+	private JPanel panel;
+	private JTable tableCommandMemory;
 
 	/**
 	 * Create the application.
@@ -46,25 +58,33 @@ public class EmulatorGUI implements Observer{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 558, 396);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+       
+        
+        DefaultTableModel model = new DefaultTableModel();
+        tableCommandMemory = new JTable(model);
+        tableCommandMemory.setEnabled(false);
+        
+        model.addColumn("#");
+        model.addColumn("Command");
+        model.addColumn("Op-Code");
+		frame.getContentPane().add(new JScrollPane(tableCommandMemory), BorderLayout.WEST);
+		
+		panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		btnStart = new JButton("Start");		
+		panel.add(btnStart);
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				emuGui.startEmulation();
 			}
 		});
-		btnStart.setBounds(6, 6, 117, 29);
 		btnStart.setEnabled(false);
-		frame.getContentPane().add(btnStart);
-		
-		txtResult = new JTextField();
-		txtResult.setBounds(247, 5, 134, 28);
-		txtResult.setEditable(false);
-		frame.getContentPane().add(txtResult);
-		txtResult.setColumns(10);
 		
 		btnStep = new JButton("Step");
+		panel.add(btnStep);
 		btnStep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				synchronized (this) {
@@ -72,20 +92,18 @@ public class EmulatorGUI implements Observer{
 				}
 			}
 		});
-		btnStep.setBounds(118, 6, 117, 29);
 		btnStep.setEnabled(false);
-		frame.getContentPane().add(btnStep);
 		
-		tableCommandMemory = new JTable();
-		tableCommandMemory.setRowSelectionAllowed(false);
-		tableCommandMemory.setBounds(22, 78, 159, 252);
-		frame.getContentPane().add(tableCommandMemory);
 		
 		txtCommandCounter = new JTextField();
+		panel.add(txtCommandCounter);
 		txtCommandCounter.setEditable(false);
 		txtCommandCounter.setColumns(10);
-		txtCommandCounter.setBounds(16, 38, 134, 28);
-		frame.getContentPane().add(txtCommandCounter);
+		
+		txtResult = new JTextField();
+		panel.add(txtResult);
+		txtResult.setEditable(false);
+		txtResult.setColumns(10);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -115,10 +133,13 @@ public class EmulatorGUI implements Observer{
 			
 			btnStart.setEnabled(true);
 	    }
+	    ReturnValues returnSet = this.cpu.getInitialConifg();
+	    updateTable(returnSet);
+	    
 	}
 	
 	public void startEmulation(){
-		mode = RunModes.AUTO;
+		mode = RunModes.SLOW;
 		
 		cpu.setRunMode(mode);
 		
@@ -136,19 +157,40 @@ public class EmulatorGUI implements Observer{
 		}	
 	}
 	
+	private void updateTable(ReturnValues returnSet){
+		Map<Integer,Command> map = returnSet.getMemory().getCommandMemory();
+		DefaultTableModel model = (DefaultTableModel) this.tableCommandMemory.getModel();
+		for( Map.Entry<Integer,Command> entry : map.entrySet() )
+		{
+		  int cellNumber = entry.getKey();
+		  Command command = entry.getValue();
+		 
+		  model.addRow(new Object[]{cellNumber, command.getFullCommand(), command.getOpCode()});
+		}
+	}
+	
+	private void selectRow(int position){
+		ListSelectionModel selectionModel = tableCommandMemory.getSelectionModel();
+		selectionModel.clearSelection();
+		selectionModel.addSelectionInterval(position,position);
+	}
+	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		ReturnValues returnSet = (ReturnValues)arg1;
 		String resultText = Integer.toString(returnSet.getAkku().getDezValue());
 		this.txtResult.setText(resultText);
 		
-		
-		this.frame.repaint();
-		
-		if(mode==RunModes.AUTO||mode==RunModes.SLOW){
+		if(mode==RunModes.AUTO){
 			
-		}else if(mode == RunModes.STEP){
+		}else if(mode ==RunModes.SLOW){
+			//returnSet.getMemory().getCommandMemoryField()
+			this.selectRow(returnSet.getProgramCounter());
+		}
+		else if(mode == RunModes.STEP){
 			this.cpu.pause();
 		}
+		
+		this.frame.repaint();
 	}
 }
