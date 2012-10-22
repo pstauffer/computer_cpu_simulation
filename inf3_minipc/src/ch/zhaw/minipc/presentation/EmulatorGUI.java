@@ -24,10 +24,17 @@ import ch.zhaw.minipc.base.RunModes;
 import ch.zhaw.minipc.commands.Command;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import java.awt.FlowLayout;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JLabel;
 
 public class EmulatorGUI implements Observer{
 
@@ -41,8 +48,12 @@ public class EmulatorGUI implements Observer{
 	private JButton btnStep;
 	private JButton btnStart;
 	private JTextField txtCommandCounter;
-	private JPanel panel;
+	private JPanel panelCommandTable;
 	private JTable tableCommandMemory;
+	private JComboBox comboBox;
+	private JPanel panelRegister;
+	private JLabel lblRegister;
+	private JTextField textField;
 
 	/**
 	 * Create the application.
@@ -56,7 +67,7 @@ public class EmulatorGUI implements Observer{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 558, 396);
+		frame.setBounds(100, 100, 643, 487);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
        
@@ -64,18 +75,41 @@ public class EmulatorGUI implements Observer{
         DefaultTableModel model = new DefaultTableModel();
         tableCommandMemory = new JTable(model);
         tableCommandMemory.setEnabled(false);
-        
+        tableCommandMemory.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+      
         model.addColumn("#");
         model.addColumn("Command");
         model.addColumn("Op-Code");
-		frame.getContentPane().add(new JScrollPane(tableCommandMemory), BorderLayout.WEST);
+        
+        TableColumn col = tableCommandMemory.getColumnModel().getColumn(0);
+        col.setPreferredWidth(40);
+        col = tableCommandMemory.getColumnModel().getColumn(1);
+        col.setPreferredWidth(120);
+        col = tableCommandMemory.getColumnModel().getColumn(2);
+        col.setPreferredWidth(150);
+        
+		JScrollPane scrollPane = new JScrollPane(tableCommandMemory);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setPreferredSize(new Dimension(310,150));
+		frame.getContentPane().add(scrollPane, BorderLayout.WEST);
 		
-		panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.NORTH);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panelCommandTable = new JPanel();
+		panelCommandTable.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		frame.getContentPane().add(panelCommandTable, BorderLayout.NORTH);
+		
+		
+		comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JComboBox cb = (JComboBox)arg0.getSource();
+				mode = (RunModes) (cb.getSelectedItem());
+			}
+		});
+		comboBox.setModel(new DefaultComboBoxModel(RunModes.values()));
+		panelCommandTable.add(comboBox);
 		
 		btnStart = new JButton("Start");		
-		panel.add(btnStart);
+		panelCommandTable.add(btnStart);
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				emuGui.startEmulation();
@@ -84,7 +118,7 @@ public class EmulatorGUI implements Observer{
 		btnStart.setEnabled(false);
 		
 		btnStep = new JButton("Step");
-		panel.add(btnStep);
+		panelCommandTable.add(btnStep);
 		btnStep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				synchronized (this) {
@@ -94,16 +128,26 @@ public class EmulatorGUI implements Observer{
 		});
 		btnStep.setEnabled(false);
 		
+		txtResult = new JTextField();
+		panelCommandTable.add(txtResult);
+		txtResult.setEditable(false);
+		txtResult.setColumns(10);
+		
 		
 		txtCommandCounter = new JTextField();
-		panel.add(txtCommandCounter);
+		panelCommandTable.add(txtCommandCounter);
 		txtCommandCounter.setEditable(false);
 		txtCommandCounter.setColumns(10);
 		
-		txtResult = new JTextField();
-		panel.add(txtResult);
-		txtResult.setEditable(false);
-		txtResult.setColumns(10);
+		panelRegister = new JPanel();
+		frame.getContentPane().add(panelRegister, BorderLayout.CENTER);
+		
+		lblRegister = new JLabel("Register 1");
+		panelRegister.add(lblRegister);
+		
+		textField = new JTextField();
+		panelRegister.add(textField);
+		textField.setColumns(10);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -119,6 +163,7 @@ public class EmulatorGUI implements Observer{
 		});
 		menu.add(menuItem);
 		
+		//frame.pack();
 		this.emuGui = this;
         frame.setVisible(true);
 	}
@@ -139,7 +184,6 @@ public class EmulatorGUI implements Observer{
 	}
 	
 	public void startEmulation(){
-		mode = RunModes.SLOW;
 		
 		cpu.setRunMode(mode);
 		
@@ -188,6 +232,7 @@ public class EmulatorGUI implements Observer{
 			this.selectRow(returnSet.getProgramCounter());
 		}
 		else if(mode == RunModes.STEP){
+			this.selectRow(returnSet.getProgramCounter());
 			this.cpu.pause();
 		}
 		
