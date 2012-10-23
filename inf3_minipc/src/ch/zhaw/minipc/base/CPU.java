@@ -69,10 +69,7 @@ public class CPU extends Observable implements Runnable{
 
 			werk.excecuteCommand(command);
 
-			if(runMode == RunModes.STEP){
-				this.setChanged();
-				this.notifyObservers(returnValues);
-			}else if(runMode == RunModes.SLOW){
+			if(runMode == RunModes.SLOW){
 				try {
 					//TODO: set time dynamically
 					Thread.sleep(2000);
@@ -84,15 +81,13 @@ public class CPU extends Observable implements Runnable{
 				this.setChanged();
 				this.notifyObservers(returnValues);
 			}
-			
+			returnValues = new ReturnValues(memory, counter, registerList, akku, i);
 			counter.incrementBefehlszaehler();
 			i++;
 			
 		}
 		this.setChanged();
-		this.notifyObservers(returnValues);
-
-		System.out.println(akku.getDezValue());		
+		this.notifyObservers(returnValues);	
 	}
 	
 	

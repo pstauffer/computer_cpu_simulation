@@ -1,6 +1,7 @@
 package ch.zhaw.minipc.memory;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import ch.zhaw.minipc.commands.Command;
@@ -44,5 +45,7 @@ public interface IMemory {
 	int getCommandMemorySize();
 	
 	HashMap<Integer,Command> getCommandMemory();
+	
+	LinkedHashMap<Integer,MemoryCell> getDataMemory();
 
 }

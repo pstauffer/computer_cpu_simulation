@@ -38,7 +38,7 @@ public class Memory implements IMemory{
 	}
 	
 	public void setMemoryField(int position, MemoryCell cell) {
-		
+		dataMemory.put(position, cell);
 	}
 	
 	public int getCommandMemorySize() {
@@ -79,6 +79,11 @@ public class Memory implements IMemory{
 		for(String param : paramList){
 			this.addData(param);
 		}
+	}
+
+	@Override
+	public LinkedHashMap<Integer, MemoryCell> getDataMemory() {
+		return this.dataMemory;
 	}
 	
 }

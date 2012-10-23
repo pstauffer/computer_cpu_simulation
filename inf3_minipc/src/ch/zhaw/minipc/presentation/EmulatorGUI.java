@@ -22,6 +22,7 @@ import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.base.ReturnValues;
 import ch.zhaw.minipc.base.RunModes;
 import ch.zhaw.minipc.commands.Command;
+import ch.zhaw.minipc.memory.MemoryCell;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -43,6 +44,7 @@ import javax.swing.BoxLayout;
 import java.awt.Component;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JCheckBox;
 
 public class EmulatorGUI implements Observer{
 
@@ -72,6 +74,9 @@ public class EmulatorGUI implements Observer{
 	private JScrollPane scrollPaneMemory;
 	private JTable tableDataMemory;
 	private JTextField txtResultBin;
+	private JLabel lblBefzhler;
+	private JTextField txtBefehlsZaehlerDez;
+	private JTextField txtBefehlsZaehlerBin;
 
 	/**
 	 * Create the application.
@@ -146,12 +151,6 @@ public class EmulatorGUI implements Observer{
 		});
 		btnStep.setEnabled(false);
 		
-		
-		txtCommandCounter = new JTextField();
-		panelCommandTable.add(txtCommandCounter);
-		txtCommandCounter.setEditable(false);
-		txtCommandCounter.setColumns(10);
-		
 		panelRegister = new JPanel();
 		frame.getContentPane().add(panelRegister, BorderLayout.CENTER);
 		
@@ -205,20 +204,56 @@ public class EmulatorGUI implements Observer{
 		txtRegBin3.setColumns(10);
 		
 		lblAkku = new JLabel("Akku");
-		lblAkku.setBounds(19, 228, 61, 16);
+		lblAkku.setBounds(19, 224, 61, 16);
 		panelRegister.add(lblAkku);
 		
 		txtResultDez = new JTextField();
-		txtResultDez.setBounds(99, 222, 153, 28);
+		txtResultDez.setBounds(99, 218, 153, 28);
 		panelRegister.add(txtResultDez);
 		txtResultDez.setEditable(false);
 		txtResultDez.setColumns(10);
 		
 		txtResultBin = new JTextField();
 		txtResultBin.setEditable(false);
-		txtResultBin.setBounds(99, 250, 153, 28);
+		txtResultBin.setBounds(99, 248, 153, 28);
 		panelRegister.add(txtResultBin);
 		txtResultBin.setColumns(10);
+		
+		
+		txtCommandCounter = new JTextField();
+		txtCommandCounter.setBounds(99, 370, 153, 28);
+		panelRegister.add(txtCommandCounter);
+		txtCommandCounter.setEditable(false);
+		txtCommandCounter.setColumns(10);
+		
+		JLabel lblZhler = new JLabel("Steps\n");
+		lblZhler.setBounds(19, 376, 61, 16);
+		panelRegister.add(lblZhler);
+		
+		lblBefzhler = new JLabel("Bef.Z\u00E4hler");
+		lblBefzhler.setBounds(19, 291, 72, 16);
+		panelRegister.add(lblBefzhler);
+		
+		txtBefehlsZaehlerDez = new JTextField();
+		txtBefehlsZaehlerDez.setEditable(false);
+		txtBefehlsZaehlerDez.setBounds(99, 284, 153, 28);
+		panelRegister.add(txtBefehlsZaehlerDez);
+		txtBefehlsZaehlerDez.setColumns(10);
+		
+		txtBefehlsZaehlerBin = new JTextField();
+		txtBefehlsZaehlerBin.setEditable(false);
+		txtBefehlsZaehlerBin.setBounds(99, 314, 153, 28);
+		panelRegister.add(txtBefehlsZaehlerBin);
+		txtBefehlsZaehlerBin.setColumns(10);
+		
+		JLabel lblCarryFlag = new JLabel("Carry Flag");
+		lblCarryFlag.setBounds(19, 348, 72, 16);
+		panelRegister.add(lblCarryFlag);
+		
+		JCheckBox checkBox = new JCheckBox("");
+		checkBox.setEnabled(false);
+		checkBox.setBounds(99, 344, 28, 23);
+		panelRegister.add(checkBox);
 		
         DefaultTableModel modelMemory = new DefaultTableModel();
         tableDataMemory = new JTable(modelMemory);
@@ -272,6 +307,7 @@ public class EmulatorGUI implements Observer{
 	    }
 	    ReturnValues returnSet = this.cpu.getInitialConifg();
 	    updateTable(returnSet);
+	    updateDataTable(returnSet);
 	    
 	}
 	
@@ -305,6 +341,19 @@ public class EmulatorGUI implements Observer{
 		}
 	}
 	
+	private void updateDataTable(ReturnValues returnSet){
+		Map<Integer,MemoryCell> mapMemory = returnSet.getMemory().getDataMemory();
+		DefaultTableModel modelData = (DefaultTableModel) this.tableDataMemory.getModel();
+		modelData.getDataVector().removeAllElements();
+		for( Map.Entry<Integer,MemoryCell> entry : mapMemory.entrySet() )
+		{
+		  int cellNumber = entry.getKey();
+		  MemoryCell cell = entry.getValue();
+		 
+		  modelData.addRow(new Object[]{cellNumber, cell.getDezValue(), cell.getBinValue()});
+		}
+	}
+	
 	private void selectRow(int position){
 		ListSelectionModel selectionModel = tableCommandMemory.getSelectionModel();
 		selectionModel.clearSelection();
@@ -316,37 +365,39 @@ public class EmulatorGUI implements Observer{
 		this.txtResultDez.setText(resultTextDez);
 		String resultTextBin = returnSet.getAkku().getBinValue();
 		this.txtResultBin.setText(resultTextBin);
-		//TODO WORKING POSITION
+
 		String resultTextDez1 = Integer.toString(returnSet.getRegisterList().get("R1").getDezValue());
 		this.txtRegDez1.setText(resultTextDez1);
 		String resultTextBin1 = returnSet.getRegisterList().get("R1").getBinValue();
-		this.txtResultBin.setText(resultTextBin1);
+		this.txtRegBin1.setText(resultTextBin1);
 		
 		String resultTextDez2 = Integer.toString(returnSet.getRegisterList().get("R2").getDezValue());
 		this.txtRegDez2.setText(resultTextDez2);
 		String resultTextBin2 = returnSet.getRegisterList().get("R2").getBinValue();
-		this.txtResultBin.setText(resultTextBin2);
+		this.txtRegBin2.setText(resultTextBin2);
 		
 		String resultTextDez3 = Integer.toString(returnSet.getRegisterList().get("R3").getDezValue());
 		this.txtRegDez3.setText(resultTextDez3);
 		String resultTextBin3 = returnSet.getRegisterList().get("R3").getBinValue();
-		this.txtResultBin.setText(resultTextBin3);
-		
+		this.txtRegBin3.setText(resultTextBin3);
 	}
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		ReturnValues returnSet = (ReturnValues)arg1;
 		this.updateFields(returnSet);
+		this.updateDataTable(returnSet);
+		this.selectRow(returnSet.getProgramCounter());
+		this.txtCommandCounter.setText(Integer.toString(returnSet.getProgramCounter()));
 		
 		if(mode==RunModes.AUTO){
 			
 		}else if(mode ==RunModes.SLOW){
 			//returnSet.getMemory().getCommandMemoryField()
-			this.selectRow(returnSet.getProgramCounter());
+			
 		}
 		else if(mode == RunModes.STEP){
-			this.selectRow(returnSet.getProgramCounter());
+			//this.selectRow(returnSet.getProgramCounter());
 			this.cpu.pause();
 		}
 		

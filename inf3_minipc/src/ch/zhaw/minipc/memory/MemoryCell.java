@@ -5,7 +5,7 @@ import ch.zhaw.minipc.util.Tools;
 
 public class MemoryCell {
 	private int dezValue;
-	private String binValue;
+	private String binValue = "0000000000000000";
 	
 	public MemoryCell(){};
 	
