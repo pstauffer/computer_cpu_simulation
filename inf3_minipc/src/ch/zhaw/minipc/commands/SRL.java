@@ -39,7 +39,6 @@ public class SRL extends Command {
 
 	@Override
 	public void updateOpCode() {
-		// TODO Auto-generated method stub
 
 	}
 

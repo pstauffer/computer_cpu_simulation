@@ -19,8 +19,10 @@ public class ADD extends Command {
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
 
+		String fullParameter = this.getParameter();
+
 		int value = akku.getDezValue();
-		MemoryCell register = registerList.get(this.getParameter());
+		MemoryCell register = registerList.get(fullParameter);
 
 		// calculate
 		int result = value + register.getDezValue();
@@ -39,6 +41,7 @@ public class ADD extends Command {
 
 	public void updateOpCode() {
 
-	}
+		this.replaceRegisterForOpcode();
 
+	}
 }

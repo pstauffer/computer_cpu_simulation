@@ -11,7 +11,7 @@ public class DEC extends Command {
 
 	public DEC() {
 		this.setName("DEC");
-		this.setOpCode("00000100");
+		this.setOpCode("0000010000000000");
 	}
 
 	@Override
