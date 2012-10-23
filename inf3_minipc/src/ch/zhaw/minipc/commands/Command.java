@@ -65,6 +65,11 @@ public abstract class Command {
 		return fullParameter.split("#")[1];
 	}
 
+	public String getDecNumber() {
+		String fullParameter = this.getParameter();
+		return fullParameter.split("#")[1];
+	}
+
 	public void replaceRegisterForOpcode() {
 
 		// parse the String for the numbers, needed for the switch-case

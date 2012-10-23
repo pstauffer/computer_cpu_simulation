@@ -6,12 +6,13 @@ import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.component.IBefehlszaehler;
 import ch.zhaw.minipc.memory.IMemory;
 import ch.zhaw.minipc.memory.MemoryCell;
+import ch.zhaw.minipc.util.Tools;
 
-public class DEC extends Command {
+public class ADDD extends Command {
 
-	public DEC() {
-		this.setName("DEC");
-		this.setOpCode("0000010000000000");
+	public ADDD() {
+		this.setName("ADDD");
+		this.setOpCode("1zzzzzzzzzzzzzz");
 	}
 
 	@Override
@@ -20,9 +21,10 @@ public class DEC extends Command {
 			IMemory memory) {
 
 		int value = akku.getDezValue();
+		int number = Integer.parseInt(this.getDecNumber());
 
 		// calculate
-		int result = value - 1;
+		int result = value + number;
 
 		// checks for carry flag
 		if (result >= this.MAX) {
@@ -39,6 +41,15 @@ public class DEC extends Command {
 
 	@Override
 	public void updateOpCode() {
+
+		// get the decimal number
+		int number = Integer.parseInt(this.getParameter().split("#")[1]);
+
+		// convert to a binary number
+		String binNumber = Tools.convertToBin(number, 15);
+
+		// replace the zzzzzzzzzzzzzz with the binary number
+		this.setOpCode(this.getOpCode().replaceAll("zzzzzzzzzzzzzz", binNumber));
 
 	}
 
