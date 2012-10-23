@@ -50,7 +50,7 @@ public class EmulatorGUI implements Observer{
 
 	private JFrame frame;
 	private EmulatorGUI emuGui;
-	private RunModes mode;
+	private RunModes mode = RunModes.STEP;
 	private JTextField txtResultDez;
 	private Thread emuThread;
 	private CPU cpu;
@@ -129,6 +129,7 @@ public class EmulatorGUI implements Observer{
 			}
 		});
 		comboBox.setModel(new DefaultComboBoxModel(RunModes.values()));
+		this.mode = (RunModes) comboBox.getSelectedItem();
 		panelCommandTable.add(comboBox);
 		
 		btnStart = new JButton("Start");		
@@ -149,7 +150,7 @@ public class EmulatorGUI implements Observer{
 				}
 			}
 		});
-		btnStep.setEnabled(false);
+		btnStep.setEnabled(true);
 		
 		panelRegister = new JPanel();
 		frame.getContentPane().add(panelRegister, BorderLayout.CENTER);

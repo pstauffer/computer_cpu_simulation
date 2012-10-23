@@ -103,10 +103,11 @@ public class CPU extends Observable implements Runnable{
 
 			werk.excecuteCommand(command);
 			//Todo find out the right place for this, to get the actual infos in the gui
+			this.setChanged();
+			returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+			this.notifyObservers(returnValues);
 			counter.incrementBefehlszaehler();
 			i++;
-			this.setChanged();
-			this.notifyObservers(returnValues);
 			
 			synchronized (this) {
 				while (fPause) {
