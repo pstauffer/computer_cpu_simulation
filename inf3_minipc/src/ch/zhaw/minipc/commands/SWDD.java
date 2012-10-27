@@ -27,6 +27,8 @@ public class SWDD extends Command {
 		// .parseInt(decAddr));
 
 		memory.setMemoryField(memPosition, registerValue);
+		
+		zaehler.incrementBefehlszaehler();
 
 	}
 

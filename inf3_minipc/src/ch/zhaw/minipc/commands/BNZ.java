@@ -22,6 +22,8 @@ public class BNZ extends Command {
 			MemoryCell register = registerList.get(fullParameter);
 			int registerValue = register.getDezValue();
 			zaehler.jumpToPosition(registerValue);
+		}else{
+			zaehler.incrementBefehlszaehler();
 		}
 
 	}

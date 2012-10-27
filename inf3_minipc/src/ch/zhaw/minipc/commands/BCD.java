@@ -22,6 +22,8 @@ public class BCD extends Command {
 		if (CPU.getCarryFlag() == true) {
 			int addr = Integer.parseInt(this.getDecNumber());
 			zaehler.jumpToPosition(addr);
+		}else{
+			zaehler.incrementBefehlszaehler();
 		}
 
 	}

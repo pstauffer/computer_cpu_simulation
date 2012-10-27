@@ -82,7 +82,7 @@ public class CPU extends Observable implements Runnable{
 				this.notifyObservers(returnValues);
 			}
 			returnValues = new ReturnValues(memory, counter, registerList, akku, i);
-			counter.incrementBefehlszaehler();
+			//counter.incrementBefehlszaehler();
 			i++;
 			
 		}
@@ -102,11 +102,12 @@ public class CPU extends Observable implements Runnable{
 			Command command = memory.getCommandMemoryField(position);
 
 			werk.excecuteCommand(command);
-			//Todo find out the right place for this, to get the actual infos in the gui
+			
 			this.setChanged();
 			returnValues = new ReturnValues(memory, counter, registerList, akku, i);
 			this.notifyObservers(returnValues);
-			counter.incrementBefehlszaehler();
+			//TODO: Finde weg für befehlszähler
+			//counter.incrementBefehlszaehler();
 			i++;
 			
 			synchronized (this) {

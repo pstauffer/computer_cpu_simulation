@@ -50,7 +50,9 @@ public class OR extends Command {
 		if (orValueDec <= this.MIN) {
 			CPU.setCarryFlag(true);
 		}
-
+		
+		zaehler.incrementBefehlszaehler();
+		
 		// set the new value
 		akku.setDezValue(orValueDec);
 

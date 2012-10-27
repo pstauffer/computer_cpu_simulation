@@ -27,6 +27,8 @@ public class LWDD extends Command {
 		registerValue = cellValue;
 
 		registerList.put(registerName, registerValue);
+		
+		zaehler.incrementBefehlszaehler();
 	}
 
 	public void updateOpCode() {

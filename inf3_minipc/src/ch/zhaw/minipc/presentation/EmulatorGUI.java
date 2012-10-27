@@ -152,6 +152,9 @@ public class EmulatorGUI implements Observer{
 		});
 		btnStep.setEnabled(true);
 		
+		JButton btnReset = new JButton("Reset");
+		panelCommandTable.add(btnReset);
+		
 		panelRegister = new JPanel();
 		frame.getContentPane().add(panelRegister, BorderLayout.CENTER);
 		
@@ -280,7 +283,7 @@ public class EmulatorGUI implements Observer{
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		//Build the first menu.
-		JMenu menu = new JMenu("Emulator");
+		JMenu menu = new JMenu("File");
 		menuBar.add(menu);
 		
 		JMenuItem menuItem = new JMenuItem("Initialize");

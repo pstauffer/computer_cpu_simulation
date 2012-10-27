@@ -46,7 +46,9 @@ public class NOT extends Command {
 		if (notValueDec <= this.MIN) {
 			CPU.setCarryFlag(true);
 		}
-
+		
+		zaehler.incrementBefehlszaehler();
+		
 		// set the new value
 		akku.setDezValue(notValueDec);
 

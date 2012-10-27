@@ -11,6 +11,8 @@ public class Memory implements IMemory{
 	private LinkedHashMap<Integer,Command> commandMemory;
 	private LinkedHashMap<Integer,MemoryCell> dataMemory;
 	private String packageName = "ch.zhaw.minipc.commands.";
+	private final int dataMemoryStart = 500;
+	private final int commandMemoryStart = 200;
 	
 	public Memory(){
 		this.commandMemory = new LinkedHashMap<Integer,Command>();
@@ -24,7 +26,7 @@ public class Memory implements IMemory{
 	
 	public void addData(String data){
 		//Index des dataMemory beginnt bei 500
-		this.dataMemory.put(this.dataMemory.size()+500, new MemoryCell(Integer.parseInt(data)));
+		this.dataMemory.put(this.dataMemory.size()+dataMemoryStart, new MemoryCell(Integer.parseInt(data)));
 	}
 	
 	@Override

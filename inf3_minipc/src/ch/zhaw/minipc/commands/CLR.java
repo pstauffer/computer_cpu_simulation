@@ -27,7 +27,8 @@ public class CLR extends Command {
 			MemoryCell register = registerList.get(fullParameter);
 			register.setDezValue(0);
 		}
-
+		
+		zaehler.incrementBefehlszaehler();
 		// set the carry flag
 		CPU.setCarryFlag(false);
 

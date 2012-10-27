@@ -49,7 +49,9 @@ public class AND extends Command {
 		if (andValueDec <= this.MIN) {
 			CPU.setCarryFlag(true);
 		}
-
+		
+		zaehler.incrementBefehlszaehler();
+		
 		// set the new value
 		akku.setDezValue(andValueDec);
 

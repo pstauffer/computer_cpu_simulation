@@ -21,6 +21,8 @@ public class BZD extends Command {
 		if (akku.getDezValue() == 0) {
 			int addr = Integer.parseInt(this.getDecNumber());
 			zaehler.jumpToPosition(addr);
+		}else{
+			zaehler.incrementBefehlszaehler();
 		}
 
 	}

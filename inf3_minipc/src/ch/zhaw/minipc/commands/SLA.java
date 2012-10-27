@@ -31,6 +31,8 @@ public class SLA extends Command {
 		if (result <= this.MIN) {
 			CPU.setCarryFlag(true);
 		}
+		
+		zaehler.incrementBefehlszaehler();
 
 		akku.setDezValue(result);
 

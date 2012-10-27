@@ -31,6 +31,8 @@ public class SRL extends Command {
 		if (result <= this.MIN) {
 			CPU.setCarryFlag(true);
 		}
+		
+		zaehler.incrementBefehlszaehler();
 
 		// set the new value
 		akku.setDezValue(result);
