@@ -344,6 +344,10 @@ public class EmulatorGUI implements Observer{
 		 
 		  model.addRow(new Object[]{cellNumber, command.getFullCommand(), command.getOpCode()});
 		}
+		
+		ListSelectionModel selectionModel = tableCommandMemory.getSelectionModel();
+		selectionModel.clearSelection();
+		selectionModel.addSelectionInterval(0,0);
 	}
 	
 	private void updateDataTable(ReturnValues returnSet){
@@ -365,9 +369,13 @@ public class EmulatorGUI implements Observer{
 		
 		int rowSelection = ((position - Memory.COMMANDMEMORYSTART)/Memory.CELLSIZE);
 		
-		ListSelectionModel selectionModel = tableCommandMemory.getSelectionModel();
-		selectionModel.clearSelection();
-		selectionModel.addSelectionInterval(rowSelection,rowSelection);
+		tableCommandMemory.clearSelection();
+		
+		tableCommandMemory.changeSelection(rowSelection, 0, false, false);
+		
+		//*ListSelectionModel selectionModel = tableCommandMemory.getSelectionModel();
+		//selectionModel.clearSelection();
+		//selectionModel.addSelectionInterval(rowSelection,rowSelection);
 	}
 	
 	private void updateFields(ReturnValues returnSet){
@@ -390,6 +398,11 @@ public class EmulatorGUI implements Observer{
 		this.txtRegDez3.setText(resultTextDez3);
 		String resultTextBin3 = returnSet.getRegisterList().get("R3").getBinValue();
 		this.txtRegBin3.setText(resultTextBin3);
+		
+		String counterTextDez = Integer.toString(returnSet.getCounter().getPosition());
+		this.txtBefehlsZaehlerDez.setText(counterTextDez);
+		//String resultTextBin3 = returnSet.getRegisterList().get("R3").getBinValue();
+		//this.txtRegBin3.setText(resultTextBin3);
 	}
 	
 	@Override

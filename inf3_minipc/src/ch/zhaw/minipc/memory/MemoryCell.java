@@ -24,7 +24,7 @@ public class MemoryCell {
 	public String getBinValue() {
 		return binValue;
 	}
-	private void setBinValue(String binValue) {
+	public void setBinValue(String binValue) {
 		this.binValue = binValue;
 	}
 	

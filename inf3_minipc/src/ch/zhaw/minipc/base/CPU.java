@@ -26,6 +26,7 @@ public class CPU extends Observable implements Runnable{
 	private boolean fPause = false;
 	private ReturnValues initValues;
 	private static boolean carryFlag = false;
+	private static boolean endFlag = false;
 	
 	public CPU(String path){
         CodeReader reader  = new CodeReader();
@@ -62,7 +63,7 @@ public class CPU extends Observable implements Runnable{
 		int i = 0;
 		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i);
 
-		while(i < memory.getCommandMemorySize()){
+		while(!CPU.getEndFlag()){
 			int position = counter.getPosition();
 
 			Command command = memory.getCommandMemoryField(position);
@@ -82,9 +83,7 @@ public class CPU extends Observable implements Runnable{
 				this.notifyObservers(returnValues);
 			}
 			returnValues = new ReturnValues(memory, counter, registerList, akku, i);
-			//counter.incrementBefehlszaehler();
-			i++;
-			
+			i++;		
 		}
 		this.setChanged();
 		this.notifyObservers(returnValues);	
@@ -96,7 +95,7 @@ public class CPU extends Observable implements Runnable{
 		int i = 0;
 		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i);
 
-		while(i < memory.getCommandMemorySize()){
+		while(!CPU.getEndFlag()){
 			int position = counter.getPosition();
 
 			Command command = memory.getCommandMemoryField(position);
@@ -161,6 +160,16 @@ public class CPU extends Observable implements Runnable{
 
 	public static void setCarryFlag(boolean carryFlag) {
 		CPU.carryFlag = carryFlag;
+	}
+
+
+	public static boolean getEndFlag() {
+		return endFlag;
+	}
+
+
+	public static void setEndFlag(boolean endFlag) {
+		CPU.endFlag = endFlag;
 	}
 
 }

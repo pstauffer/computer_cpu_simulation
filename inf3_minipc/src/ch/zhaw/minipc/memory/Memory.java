@@ -11,7 +11,7 @@ public class Memory implements IMemory{
 	private LinkedHashMap<Integer,MemoryCell> dataMemory;
 	private String packageName = "ch.zhaw.minipc.commands.";
 	public static final int DATAMEMORYSTART = 500;
-	public static final int COMMANDMEMORYSTART = 200;
+	public static final int COMMANDMEMORYSTART = 100;
 	public static final int CELLSIZE = 2;
 	
 	public Memory(){

@@ -2,6 +2,7 @@ package ch.zhaw.minipc.commands;
 
 import java.util.HashMap;
 
+import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.component.IBefehlszaehler;
 import ch.zhaw.minipc.memory.IMemory;
 import ch.zhaw.minipc.memory.MemoryCell;
@@ -18,7 +19,7 @@ public class END extends Command {
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
 
-		// do nothing :)
+		CPU.setEndFlag(true);
 
 	}
 
