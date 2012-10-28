@@ -22,6 +22,7 @@ import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.base.ReturnValues;
 import ch.zhaw.minipc.base.RunModes;
 import ch.zhaw.minipc.commands.Command;
+import ch.zhaw.minipc.memory.Memory;
 import ch.zhaw.minipc.memory.MemoryCell;
 
 import java.awt.BorderLayout;
@@ -310,7 +311,7 @@ public class EmulatorGUI implements Observer{
 			btnStart.setEnabled(true);
 	    }
 	    ReturnValues returnSet = this.cpu.getInitialConifg();
-	    updateTable(returnSet);
+	    updateCommandTable(returnSet);
 	    updateDataTable(returnSet);
 	    
 	}
@@ -333,7 +334,7 @@ public class EmulatorGUI implements Observer{
 		}	
 	}
 	
-	private void updateTable(ReturnValues returnSet){
+	private void updateCommandTable(ReturnValues returnSet){
 		Map<Integer,Command> map = returnSet.getMemory().getCommandMemory();
 		DefaultTableModel model = (DefaultTableModel) this.tableCommandMemory.getModel();
 		for( Map.Entry<Integer,Command> entry : map.entrySet() )
@@ -356,12 +357,17 @@ public class EmulatorGUI implements Observer{
 		 
 		  modelData.addRow(new Object[]{cellNumber, cell.getDezValue(), cell.getBinValue()});
 		}
+		
+		ListSelectionModel selectionModel = tableCommandMemory.getSelectionModel();
 	}
 	
 	private void selectRow(int position){
+		
+		int rowSelection = ((position - Memory.COMMANDMEMORYSTART)/Memory.CELLSIZE);
+		
 		ListSelectionModel selectionModel = tableCommandMemory.getSelectionModel();
 		selectionModel.clearSelection();
-		selectionModel.addSelectionInterval(position,position);
+		selectionModel.addSelectionInterval(rowSelection,rowSelection);
 	}
 	
 	private void updateFields(ReturnValues returnSet){
@@ -391,7 +397,7 @@ public class EmulatorGUI implements Observer{
 		ReturnValues returnSet = (ReturnValues)arg1;
 		this.updateFields(returnSet);
 		this.updateDataTable(returnSet);
-		this.selectRow(returnSet.getProgramCounter());
+		this.selectRow(returnSet.getCounter().getPosition());
 		this.txtCommandCounter.setText(Integer.toString(returnSet.getProgramCounter()));
 		
 		if(mode==RunModes.AUTO){

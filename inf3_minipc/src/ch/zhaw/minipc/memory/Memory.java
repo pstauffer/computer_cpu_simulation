@@ -1,6 +1,5 @@
 package ch.zhaw.minipc.memory;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -11,8 +10,9 @@ public class Memory implements IMemory{
 	private LinkedHashMap<Integer,Command> commandMemory;
 	private LinkedHashMap<Integer,MemoryCell> dataMemory;
 	private String packageName = "ch.zhaw.minipc.commands.";
-	private final int dataMemoryStart = 500;
-	private final int commandMemoryStart = 200;
+	public static final int DATAMEMORYSTART = 500;
+	public static final int COMMANDMEMORYSTART = 200;
+	public static final int CELLSIZE = 2;
 	
 	public Memory(){
 		this.commandMemory = new LinkedHashMap<Integer,Command>();
@@ -21,12 +21,19 @@ public class Memory implements IMemory{
 	
 	private void addCommand(Command newCommand){
 		//Index des commandMemorys beginnt bei 100
-		this.commandMemory.put(this.commandMemory.size()+100,newCommand);
+		
+		int index = (this.commandMemory.size() * this.CELLSIZE) + COMMANDMEMORYSTART;
+		
+		this.commandMemory.put(index,newCommand);
+		
 	}
 	
 	public void addData(String data){
 		//Index des dataMemory beginnt bei 500
-		this.dataMemory.put(this.dataMemory.size()+dataMemoryStart, new MemoryCell(Integer.parseInt(data)));
+		
+		int index = (this.dataMemory.size() * this.CELLSIZE) + this.DATAMEMORYSTART;
+		
+		this.dataMemory.put(index, new MemoryCell(Integer.parseInt(data)));
 	}
 	
 	@Override

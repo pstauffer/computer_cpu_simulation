@@ -1,23 +1,25 @@
 package ch.zhaw.minipc.component;
 
+import ch.zhaw.minipc.memory.Memory;
+
 public class Befehlszaehler implements IBefehlszaehler{
 	//Just for test purposes!!!!!!!!
-	private int position = 100;
-	private final int lenght = 1;
+	private int position = Memory.COMMANDMEMORYSTART;
+	private final int lenght = Memory.CELLSIZE;
 
 	@Override
 	public void incrementBefehlszaehler() {
-		position++;	
+		position+=lenght;	
 	}
 
 	@Override
 	public void decrementBefehlszaehler() {
-		position--;
+		position-=lenght;
 	}
 
 	@Override
 	public void jumpToPosition(int newPosition) {
-	
+		position = newPosition;
 	}
 
 	@Override
