@@ -13,13 +13,15 @@ public class ReturnValues {
 	private HashMap<String,MemoryCell> registerList;
 	private MemoryCell akku;
 	private int programCounter;
+	private boolean carryFlag;
 	
-	public ReturnValues(IMemory memory,IBefehlszaehler counter,HashMap<String,MemoryCell> registerList, MemoryCell akku, int programCounter){
+	public ReturnValues(IMemory memory,IBefehlszaehler counter,HashMap<String,MemoryCell> registerList, MemoryCell akku, int programCounter, boolean carryflag){
 		this.memory = memory;
 		this.counter = counter;
 		this.registerList = registerList;
 		this.akku = akku;
 		this.programCounter = programCounter;
+		this.carryFlag = carryflag;
 	}
 	
 	public IMemory getMemory() {
@@ -51,6 +53,14 @@ public class ReturnValues {
 	}
 	public void setProgramCounter(int programCounter) {
 		this.programCounter = programCounter;
+	}
+
+	public boolean getCarryFlag() {
+		return carryFlag;
+	}
+
+	public void setCarryFlag(boolean carryFlag) {
+		this.carryFlag = carryFlag;
 	}
 
 }

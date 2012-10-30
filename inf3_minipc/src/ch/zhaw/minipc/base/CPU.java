@@ -55,13 +55,13 @@ public class CPU extends Observable implements Runnable{
 		
 		memory.initMemory(commandList, paramList);
 		int i = 0;
-		initValues = new ReturnValues(memory, counter, registerList, akku,i);
+		initValues = new ReturnValues(memory, counter, registerList, akku,i,carryFlag);
 	}
 	
 
 	public void startAutoEmulator(){
 		int i = 0;
-		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
 
 		while(!CPU.getEndFlag()){
 			int position = counter.getPosition();
@@ -73,16 +73,16 @@ public class CPU extends Observable implements Runnable{
 			if(runMode == RunModes.SLOW){
 				try {
 					//TODO: set time dynamically
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 
 					e.printStackTrace();
 				}
-				returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+				returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
 				this.setChanged();
 				this.notifyObservers(returnValues);
 			}
-			returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+			returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
 			i++;		
 		}
 		this.setChanged();
@@ -93,7 +93,7 @@ public class CPU extends Observable implements Runnable{
 	private void startStepEmulator(){
 
 		int i = 0;
-		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
 
 		while(!CPU.getEndFlag()){
 			int position = counter.getPosition();
@@ -103,10 +103,8 @@ public class CPU extends Observable implements Runnable{
 			werk.excecuteCommand(command);
 			
 			this.setChanged();
-			returnValues = new ReturnValues(memory, counter, registerList, akku, i);
+			returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
 			this.notifyObservers(returnValues);
-			//TODO: Finde weg für befehlszähler
-			//counter.incrementBefehlszaehler();
 			i++;
 			
 			synchronized (this) {

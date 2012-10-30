@@ -24,14 +24,12 @@ public class LWDD extends Command {
 		MemoryCell cellValue = memory.getDataMemoryCell(Integer
 				.parseInt(decAddr));
 
-		
-		
 		if(registerName.equals("R0")){
 			akku.setDezValue(cellValue.getDezValue());
-			akku.setBinValue(cellValue.getBinValue());
 		}else{
-			registerValue = cellValue;
-			registerList.put(registerName, registerValue);
+			MemoryCell newCell = new MemoryCell();
+			newCell.setDezValue(cellValue.getDezValue());
+			registerList.put(registerName, newCell);
 		}
 		
 		zaehler.incrementBefehlszaehler();

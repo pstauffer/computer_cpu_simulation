@@ -20,23 +20,37 @@ public class SLL extends Command {
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
 
-		int value = akku.getDezValue();
+		//int value = akku.getDezValue();
 
+		int accuValInt = Integer.parseInt(akku.getBinValue(), 2);
+        // left shift
+        int accuShifted = accuValInt << 1;
+		
+        akku.setDezValue(accuShifted);
+        
 		// calculate
-		int result = value * 2;
-
+		//int result = value * 2;
+		
+        // Get first bit and set it as carry bit
+        String carryBit = akku.getBinValue().substring(0, 1);
+        if (carryBit.equals("0")) {
+        	CPU.setCarryFlag(false);
+        } else {
+        	CPU.setCarryFlag(true);
+        }
+		
 		// checks for carry flag
-		if (result >= this.MAX) {
+		/*if (result >= this.MAX) {
 			CPU.setCarryFlag(true);
 		}
 		if (result <= this.MIN) {
 			CPU.setCarryFlag(true);
-		}
+		}*/
 		
 		zaehler.incrementBefehlszaehler();
 		
 		// set the new value
-		akku.setDezValue(result);
+		//akku.setDezValue(result);
 
 		// String extend = "0";
 		// String carry = "1";

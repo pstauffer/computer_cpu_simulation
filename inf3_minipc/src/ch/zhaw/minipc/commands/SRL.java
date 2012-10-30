@@ -22,7 +22,7 @@ public class SRL extends Command {
 		int value = akku.getDezValue();
 
 		// calculate
-		int result = value / 2;
+		/*int result = value / 2;
 
 		// checks for carry flag
 		if (result >= this.MAX) {
@@ -30,12 +30,23 @@ public class SRL extends Command {
 		}
 		if (result <= this.MIN) {
 			CPU.setCarryFlag(true);
-		}
+		}*/
+		
+		int accuValInt = Integer.parseInt(akku.getBinValue(), 2);
+        // left shift
+        int accuShifted = accuValInt >> 1;
+		
+        akku.setDezValue(accuShifted);
+		
+        // Get first bit and set it as carry bit
+        String carryBit = akku.getBinValue().substring(15);
+        if (carryBit.equals("0")) {
+        	CPU.setCarryFlag(false);
+        } else {
+        	CPU.setCarryFlag(true);
+        }
 		
 		zaehler.incrementBefehlszaehler();
-
-		// set the new value
-		akku.setDezValue(result);
 
 	}
 

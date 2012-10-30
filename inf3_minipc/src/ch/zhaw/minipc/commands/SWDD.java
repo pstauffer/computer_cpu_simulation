@@ -23,10 +23,10 @@ public class SWDD extends Command {
 		MemoryCell registerValue = new MemoryCell();
 		
 		if(registerName.equals("R0")){
-			registerValue.setBinValue(akku.getBinValue());
+			//registerValue.setBinValue(akku.getBinValue());
 			registerValue.setDezValue(akku.getDezValue());
 		}else{
-			registerValue.setBinValue(registerList.get(registerName).getBinValue());
+			//registerValue.setBinValue(registerList.get(registerName).getBinValue());
 			registerValue.setDezValue(registerList.get(registerName).getDezValue());
 		}
 		

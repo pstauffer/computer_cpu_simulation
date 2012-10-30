@@ -18,6 +18,22 @@ public class SLA extends Command {
 	public void excecute(MemoryCell akku,
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
+		
+		String accuVal = akku.getBinValue();
+		int accuValInt = Integer.parseInt(akku.getBinValue(), 2);
+
+        // Get second bit and set it as carry bit
+        String carryBit = accuVal.substring(1, 2);
+        if (carryBit.equals("0")) {
+            CPU.setCarryFlag(false);
+            akku.setDezValue(accuValInt*2);
+        } else {
+            CPU.setCarryFlag(true);
+            //TODO!!!!!
+           // String bin = tools.convertToBin(accuValDec * 2, 16);
+           // accu.setRegister(bin.replaceFirst("1", "0"));
+
+        }
 
 		int value = akku.getDezValue();
 

@@ -78,6 +78,7 @@ public class EmulatorGUI implements Observer{
 	private JLabel lblBefzhler;
 	private JTextField txtBefehlsZaehlerDez;
 	private JTextField txtBefehlsZaehlerBin;
+	private JCheckBox checkBoxCarryFlag;
 
 	/**
 	 * Create the application.
@@ -255,10 +256,10 @@ public class EmulatorGUI implements Observer{
 		lblCarryFlag.setBounds(19, 348, 72, 16);
 		panelRegister.add(lblCarryFlag);
 		
-		JCheckBox checkBox = new JCheckBox("");
-		checkBox.setEnabled(false);
-		checkBox.setBounds(99, 344, 28, 23);
-		panelRegister.add(checkBox);
+		checkBoxCarryFlag = new JCheckBox("");
+		checkBoxCarryFlag.setEnabled(false);
+		checkBoxCarryFlag.setBounds(99, 344, 28, 23);
+		panelRegister.add(checkBoxCarryFlag);
 		
         DefaultTableModel modelMemory = new DefaultTableModel();
         tableDataMemory = new JTable(modelMemory);
@@ -401,8 +402,9 @@ public class EmulatorGUI implements Observer{
 		
 		String counterTextDez = Integer.toString(returnSet.getCounter().getPosition());
 		this.txtBefehlsZaehlerDez.setText(counterTextDez);
-		//String resultTextBin3 = returnSet.getRegisterList().get("R3").getBinValue();
-		//this.txtRegBin3.setText(resultTextBin3);
+		
+		this.checkBoxCarryFlag.setSelected(returnSet.getCarryFlag());
+		
 	}
 	
 	@Override
