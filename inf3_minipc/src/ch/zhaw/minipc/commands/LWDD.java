@@ -19,19 +19,18 @@ public class LWDD extends Command {
 
 		String registerName = this.getRegisterName();
 		String decAddr = this.getDecAddr();
-		MemoryCell registerValue = null;
-		
+
 		MemoryCell cellValue = memory.getDataMemoryCell(Integer
 				.parseInt(decAddr));
 
-		if(registerName.equals("R0")){
+		if (registerName.equals("R0")) {
 			akku.setDezValue(cellValue.getDezValue());
-		}else{
+		} else {
 			MemoryCell newCell = new MemoryCell();
 			newCell.setDezValue(cellValue.getDezValue());
 			registerList.put(registerName, newCell);
 		}
-		
+
 		zaehler.incrementBefehlszaehler();
 	}
 

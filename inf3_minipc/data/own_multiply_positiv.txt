@@ -9,8 +9,8 @@ SWDD R0,#506
 LWDD R3,#506
 LWDD R0,#502
 SLL
-SRL
-BCD #128
+SRL     ;jkldfjadf
+BCD #128     ;blubb
 BD #138
 CLR R0
 LWDD R1,#500

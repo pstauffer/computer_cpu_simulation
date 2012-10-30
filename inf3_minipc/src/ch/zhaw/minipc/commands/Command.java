@@ -67,7 +67,8 @@ public abstract class Command {
 
 	public String getDecNumber() {
 		String fullParameter = this.getParameter();
-		return fullParameter.split("#")[1];
+		String DecNumber = fullParameter.split("#")[1];
+		return DecNumber;
 	}
 
 	public void replaceRegisterForOpcode() {
