@@ -2,41 +2,40 @@
 CLR R0
 SWDD R0,#510
 SWDD R0,#512
-ADDD #15
-SWDD R0,#520
-CLR R0
-ADDD #118
-SWDD R0,#522
-LWDD R3,#522
+ADDD #15		;schlaufen variable
+SWDD R0,#520	;schlaufen variable speichern
+CLR R0			
+ADDD #118		;speicheradresse für schlaufensprung setzten
+SWDD R0,#522	
+LWDD R3,#522	;beginn schlaufe
 LWDD R0,#502
-SLL
-SRL
-BCD #128
-BD #148
-LWDD R1,#500
-LWDD R0,#512
-ADD R1
-BCD #138
-BD #146
-LWDD R0,#510
-INC
-SWDD R0,#510
-BD #148
-SWDD R0,#512
-CLR R0
-LWDD R0,#500
-SLL
-SWDD R0,#500
-LWDD R0,#502
-SRL
-SWDD R0,#502
-LWDD R0,#520
-DEC
-SWDD R0,#520
-BNZ R3
+SLL				;nachdem multiplikator 1 aus dem speicher geladen wurde muss das carry bit erneut gesetzt werden
+SRL				;wieder zurücksetzten
+BCD #128		;überprüfe ob multiplikator 2 nach rechts in einen überlauf geschoben wurde
+BD #148			;sprung hinter die unterfunktion -> wenn carryflag nicht gesetzt wurde
+LWDD R1,#500	;beginn unterfunktion 
+LWDD R0,#512	;lade lower 16 bit
+ADD R1			;addiere multiplikator 1 zu #512
+SWDD R0,#512	;speichere Wert in lower 16 bit
+BCD #140		;springe zu unterfunktion überlauf wenn carry flag nach addition gesetzt wurde
+BD #146			;überspringe unterfunktion überlauf wenn carry flag nicht gesetzt wurde
+LWDD R0,#510	;lade higher 16 bit aus speicher
+INC				;incrementiere higher 16 bit
+SWDD R0,#510	;speichere zurück in #510
+CLR R0			;clear akku
+LWDD R0,#500	;lade multiplikator 1
+SLL				;schiebe multiplikator 1 nach links -> *2
+SWDD R0,#500	;speichere multiplikator 1
+LWDD R0,#502	;lade multiplikator 2
+SRL				;schiebe multiplikator 2 nach rechts ins carry bit
+SWDD R0,#502	;speichere neuen multiplikator 2;
+LWDD R0,#520	;lade zählervariable
+DEC				;inkrement zählervariable
+SWDD R0,#520	;speichere zählervariable
+BNZ R3			;springe nach oben wenn zählervariable nicht 0 ist
 LWDD R0,#512
 SWDD R0,#512
 END
 --PARAMETER--
-5012
-7
+1234
+4321

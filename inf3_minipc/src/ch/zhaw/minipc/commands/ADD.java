@@ -27,8 +27,6 @@ public class ADD extends Command {
 		// calculate
 		int result = value + register.getDezValue();
 		
-		//TODO Change carryflag! WICHTIG
-		
 		// checks for carry flag
 		if (result >= this.MAX) {
 			CPU.setCarryFlag(true);

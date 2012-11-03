@@ -19,15 +19,6 @@ public class SRL extends Command {
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
 
-		// calculate
-		/*
-		 * int result = value / 2;
-		 * 
-		 * // checks for carry flag if (result >= this.MAX) {
-		 * CPU.setCarryFlag(true); } if (result <= this.MIN) {
-		 * CPU.setCarryFlag(true); }
-		 */
-
 		int accuValInt = Integer.parseInt(akku.getBinValue(), 2);
 		// left shift
 		int accuShifted = accuValInt >> 1;

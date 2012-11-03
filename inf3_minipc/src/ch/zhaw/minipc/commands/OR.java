@@ -25,36 +25,36 @@ public class OR extends Command {
 		String akkuValue = akku.getBinValue();
 		String registerValue = register.getBinValue();
 
-		String orValue = "";
+		int accuValInt = akku.getDezValue();
+		int regValInt = register.getDezValue();
 
-		for (int count = 0; count < 16; count++) {
+		int shifted = accuValInt ^ regValInt;
 
-			String reg = registerValue.substring(count, count + 1);
-			String akk = akkuValue.substring(count, count + 1);
-
-			// or operation
-			if (reg.equals("1") || akk.equals("1")) {
-				orValue += "1";
-			} else {
-				orValue += "0";
-			}
-
-		}
-
-		int orValueDec = Tools.convertToDec(orValue);
-
-		// checks for carry flag
-		if (orValueDec >= this.MAX) {
-			CPU.setCarryFlag(true);
-		}
-		if (orValueDec <= this.MIN) {
-			CPU.setCarryFlag(true);
-		}
+		akku.setDezValue(shifted);
 		
+		
+
+		/*
+		 * String orValue = "";
+		 * 
+		 * for (int count = 0; count < 16; count++) {
+		 * 
+		 * String reg = registerValue.substring(count, count + 1); String akk =
+		 * akkuValue.substring(count, count + 1);
+		 * 
+		 * // or operation if (reg.equals("1") || akk.equals("1")) { orValue +=
+		 * "1"; } else { orValue += "0"; }
+		 * 
+		 * }
+		 * 
+		 * int orValueDec = Tools.convertToDec(orValue);
+		 * 
+		 * // checks for carry flag if (orValueDec >= this.MAX) {
+		 * CPU.setCarryFlag(true); } if (orValueDec <= this.MIN) {
+		 * CPU.setCarryFlag(true); }
+		 */
+
 		zaehler.incrementBefehlszaehler();
-		
-		// set the new value
-		akku.setDezValue(orValueDec);
 
 	}
 

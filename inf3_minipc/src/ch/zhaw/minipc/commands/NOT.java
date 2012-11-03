@@ -21,8 +21,14 @@ public class NOT extends Command {
 			IMemory memory) {
 
 		String akkuValue = akku.getBinValue();
+		
+        int accuValInt = akku.getDezValue();
 
-		String notValue = "";
+        int shifted = ~accuValInt;
+
+        akku.setDezValue(shifted);
+
+		/*String notValue = "";
 
 		for (int count = 0; count < 16; count++) {
 			String akk = akkuValue.substring(count, count + 1);
@@ -45,12 +51,12 @@ public class NOT extends Command {
 		}
 		if (notValueDec <= this.MIN) {
 			CPU.setCarryFlag(true);
-		}
+		}*/
 		
 		zaehler.incrementBefehlszaehler();
 		
 		// set the new value
-		akku.setDezValue(notValueDec);
+		//akku.setDezValue(notValueDec);
 
 	}
 

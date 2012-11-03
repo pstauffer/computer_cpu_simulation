@@ -28,9 +28,6 @@ public class INC extends Command {
 		if (result >= this.MAX) {
 			CPU.setCarryFlag(true);
 		}
-		if (result <= this.MIN) {
-			CPU.setCarryFlag(true);
-		}
 		
 		zaehler.incrementBefehlszaehler();
 		

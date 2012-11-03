@@ -6,6 +6,7 @@ import ch.zhaw.minipc.base.CPU;
 import ch.zhaw.minipc.component.IBefehlszaehler;
 import ch.zhaw.minipc.memory.IMemory;
 import ch.zhaw.minipc.memory.MemoryCell;
+import ch.zhaw.minipc.util.Tools;
 
 public class SLA extends Command {
 
@@ -20,7 +21,7 @@ public class SLA extends Command {
 			IMemory memory) {
 		
 		String accuVal = akku.getBinValue();
-		int accuValInt = Integer.parseInt(akku.getBinValue(), 2);
+		int accuValInt = akku.getDezValue();
 
         // Get second bit and set it as carry bit
         String carryBit = accuVal.substring(1, 2);
@@ -29,29 +30,13 @@ public class SLA extends Command {
             akku.setDezValue(accuValInt*2);
         } else {
             CPU.setCarryFlag(true);
-            //TODO!!!!!
-           // String bin = tools.convertToBin(accuValDec * 2, 16);
-           // accu.setRegister(bin.replaceFirst("1", "0"));
-
+            String bin = Tools.convertToBin(accuValInt * 2, 16);
+            akku.setDezValue(accuValInt * 2);
+            akku.setBinValue((bin.replaceFirst("1", "0")));
+            
         }
-
-		int value = akku.getDezValue();
-
-		// calculate
-		int result = value * 2;
-
-		// checks for carry flag
-		if (result >= this.MAX) {
-			CPU.setCarryFlag(true);
-		}
-		if (result <= this.MIN) {
-			CPU.setCarryFlag(true);
-		}
 		
 		zaehler.incrementBefehlszaehler();
-
-		akku.setDezValue(result);
-
 	}
 
 	@Override

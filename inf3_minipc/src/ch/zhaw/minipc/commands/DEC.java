@@ -24,10 +24,6 @@ public class DEC extends Command {
 		// calculate
 		int result = value - 1;
 
-		// checks for carry flag
-		if (result >= this.MAX) {
-			CPU.setCarryFlag(true);
-		}
 		if (result <= this.MIN) {
 			CPU.setCarryFlag(true);
 		}

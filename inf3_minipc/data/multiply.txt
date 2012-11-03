@@ -1,21 +1,21 @@
 --CODE--
 CLR R0
-SWDD R0,#504
-SWDD R0,#506
-SWDD R0,#514
-LWDD R0,#502
-BZD #316
-LWDD R0,#500
-BZD #316
-SLL
-BCD #126
-CLR R0
-SWDD R0,#510
-BD #138
-LWDD R0,#500
-NOT
-INC
-SWDD R0,#500
+SWDD R0,#504	;beschreibe ergebnis speicher mit 0
+SWDD R0,#506	;beschreibe ergebnis speicher mit 0
+SWDD R0,#514	;
+LWDD R0,#502	;lade multiplikator 2 
+BZD #316		;falls multiplikator 2 = 0 SPRINGE zum Ende
+LWDD R0,#500	;lade multiplikator 1
+BZD #316		;falls multiplikator 2 = 0 SPRINGE zum Ende
+SLL				;shift nach links
+BCD #126		;falls überlauf SPRINGE
+CLR R0			;clear carry flag
+SWDD R0,#510	;schreibe 0 in 510
+BD #138			;Unbedingter sprung SPRINGE zu 138
+LWDD R0,#500	;lade multiplikator 1 in akku
+NOT				;not verknüpfung
+INC				;inkrement
+SWDD R0,#500	;speichern 500
 CLR R0
 INC
 SWDD R0,#510
@@ -24,10 +24,10 @@ ADDD #15
 SWDD R0,#508
 LWDD R0,#502
 SLL
-BCD #158
+BCD #158		;SPRINGE 
 CLR R0
 SWDD R0,#512
-BD #172
+BD #172			;SPRINGE
 LWDD R0,#502
 NOT
 INC
@@ -109,5 +109,5 @@ DEC
 SWDD R0,#506
 END
 --PARAMETER--
-2
-4
+15
+27

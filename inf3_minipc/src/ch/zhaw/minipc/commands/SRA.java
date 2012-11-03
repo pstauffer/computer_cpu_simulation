@@ -19,24 +19,24 @@ public class SRA extends Command {
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
 
-		int value = akku.getDezValue();
+		String accuVal = akku.getBinValue();
 
-		// calculate
-		int result = value / 2;
+        // Get last bit and set it as carry bit
+        String carryBit = accuVal.substring(15);
+        if (carryBit.equals("0")) {
+            CPU.setCarryFlag(false);
+        } else {
+        	CPU.setCarryFlag(true);
+        }
 
-		// checks for carry flag
-		if (result >= this.MAX) {
-			CPU.setCarryFlag(true);
-		}
-		if (result <= this.MIN) {
-			CPU.setCarryFlag(true);
-		}
+        int accuValInt = akku.getDezValue();
+
+        // Signed right shift (/2)
+        int accuShifted = accuValInt >> 1;
+
+        akku.setDezValue(accuShifted);
 		
 		zaehler.incrementBefehlszaehler();
-		
-		// set the new value
-		akku.setDezValue(result);
-
 	}
 
 	@Override

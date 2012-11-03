@@ -20,44 +20,25 @@ public class SLL extends Command {
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
 
-		//int value = akku.getDezValue();
+        int accuValDec = akku.getDezValue();
+        String accuVal = akku.getBinValue();
 
-		int accuValInt = Integer.parseInt(akku.getBinValue(), 2);
-        // left shift
-        int accuShifted = accuValInt << 1;
-		
-        akku.setDezValue(accuShifted);
-        
-		// calculate
-		//int result = value * 2;
-		
         // Get first bit and set it as carry bit
-        String carryBit = akku.getBinValue().substring(0, 1);
+        String carryBit = accuVal.substring(0, 1);
         if (carryBit.equals("0")) {
-        	CPU.setCarryFlag(false);
+            CPU.setCarryFlag(false);
         } else {
         	CPU.setCarryFlag(true);
         }
-		
-		// checks for carry flag
-		/*if (result >= this.MAX) {
-			CPU.setCarryFlag(true);
-		}
-		if (result <= this.MIN) {
-			CPU.setCarryFlag(true);
-		}*/
-		
-		zaehler.incrementBefehlszaehler();
-		
-		// set the new value
-		//akku.setDezValue(result);
 
-		// String extend = "0";
-		// String carry = "1";
-		// String value = akku.getBinValue();
-		// value = value + extend;
-		// value = value.substring(2,15);
-		// value = carry + value;
+        int accuValInt = Integer.parseInt(akku.getBinValue(), 2);
+        // left shift
+        int accuShifted = accuValInt << 1;
+
+        // Save new value
+        akku.setDezValue(accuShifted);
+        
+		zaehler.incrementBefehlszaehler();
 
 	}
 

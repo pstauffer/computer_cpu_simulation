@@ -22,12 +22,20 @@ public class AND extends Command {
 
 		String fullParameter = this.getParameter();
 		MemoryCell register = registerList.get(fullParameter);
-		String akkuValue = akku.getBinValue();
-		String registerValue = register.getBinValue();
+		
+		int akkuValueDez = akku.getDezValue();
+		int registerValueDez = register.getDezValue();
+		
+		int shifted = akkuValueDez & registerValueDez;
+		
+		akku.setDezValue(shifted);
+		
+		zaehler.incrementBefehlszaehler();
+		
+		
+		//String andValue = "";
 
-		String andValue = "";
-
-		for (int count = 0; count < 16; count++) {
+		/*for (int count = 0; count < 16; count++) {
 
 			String reg = registerValue.substring(count, count + 1);
 			String akk = akkuValue.substring(count, count + 1);
@@ -39,21 +47,14 @@ public class AND extends Command {
 				andValue += "0";
 			}
 
-		}
-		int andValueDec = Tools.convertToDec(andValue);
-
-		// checks for carry flag
-		if (andValueDec >= this.MAX) {
-			CPU.setCarryFlag(true);
-		}
-		if (andValueDec <= this.MIN) {
-			CPU.setCarryFlag(true);
-		}
+		}*/
 		
-		zaehler.incrementBefehlszaehler();
+		//int andValueDec = Tools.convertToDec(andValue);
+		
+		//zaehler.incrementBefehlszaehler();
 		
 		// set the new value
-		akku.setDezValue(andValueDec);
+		//akku.setDezValue(andValueDec);
 
 	}
 

@@ -79,6 +79,7 @@ public class EmulatorGUI implements Observer{
 	private JTextField txtBefehlsZaehlerDez;
 	private JTextField txtBefehlsZaehlerBin;
 	private JCheckBox checkBoxCarryFlag;
+	private JTextField textField;
 
 	/**
 	 * Create the application.
@@ -156,6 +157,13 @@ public class EmulatorGUI implements Observer{
 		
 		JButton btnReset = new JButton("Reset");
 		panelCommandTable.add(btnReset);
+		
+		JLabel lblResultMultiplikation = new JLabel("Result Multiplikation");
+		panelCommandTable.add(lblResultMultiplikation);
+		
+		textField = new JTextField();
+		panelCommandTable.add(textField);
+		textField.setColumns(10);
 		
 		panelRegister = new JPanel();
 		frame.getContentPane().add(panelRegister, BorderLayout.CENTER);

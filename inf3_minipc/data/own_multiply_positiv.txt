@@ -9,8 +9,8 @@ SWDD R0,#506
 LWDD R3,#506
 LWDD R0,#502
 SLL
-SRL     ;jkldfjadf
-BCD #128     ;blubb
+SRL
+BCD #128
 BD #138
 CLR R0
 LWDD R1,#500
@@ -32,5 +32,5 @@ LWDD R0,#510
 SWDD R0,#510
 END
 --PARAMETER--
-2
-3
+0
+7
