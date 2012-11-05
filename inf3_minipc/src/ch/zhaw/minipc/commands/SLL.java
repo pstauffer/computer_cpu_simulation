@@ -19,7 +19,7 @@ public class SLL extends Command {
 	public void excecute(MemoryCell akku,
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
-
+		CPU.incI();
         int accuValDec = akku.getDezValue();
         String accuVal = akku.getBinValue();
 

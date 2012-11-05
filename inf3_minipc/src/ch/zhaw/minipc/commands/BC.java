@@ -12,12 +12,12 @@ public class BC extends Command {
 		this.setName("BC");
 		this.setOpCode("0001xx1100000000");
 	}
-
+	
 	@Override
 	public void excecute(MemoryCell akku,
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
-
+		CPU.incI();
 		if (CPU.getCarryFlag() == true) {
 			String fullParameter = this.getParameter();
 			MemoryCell register = registerList.get(fullParameter);

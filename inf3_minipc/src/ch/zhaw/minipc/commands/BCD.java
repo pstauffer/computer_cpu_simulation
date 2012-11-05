@@ -13,12 +13,12 @@ public class BCD extends Command {
 		this.setName("BCD");
 		this.setOpCode("001110yyyyyyyyyy");
 	}
-
+	
 	@Override
 	public void excecute(MemoryCell akku,
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
-
+		CPU.incI();
 		if (CPU.getCarryFlag() == true) {
 			int addr = Integer.parseInt(this.getDecNumber());
 			zaehler.jumpToPosition(addr);

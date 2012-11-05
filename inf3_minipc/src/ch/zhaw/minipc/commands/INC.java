@@ -18,7 +18,7 @@ public class INC extends Command {
 	public void excecute(MemoryCell akku,
 			HashMap<String, MemoryCell> registerList, IBefehlszaehler zaehler,
 			IMemory memory) {
-
+		CPU.incI();
 		int value = akku.getDezValue();
 
 		// calculate

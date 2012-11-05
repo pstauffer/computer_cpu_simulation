@@ -3,6 +3,7 @@ package ch.zhaw.minipc.memory;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import ch.zhaw.minipc.commands.Command;
 
@@ -46,6 +47,6 @@ public interface IMemory {
 	
 	HashMap<Integer,Command> getCommandMemory();
 	
-	LinkedHashMap<Integer,MemoryCell> getDataMemory();
+	TreeMap<Integer,MemoryCell> getDataMemory();
 
 }

@@ -27,6 +27,7 @@ public class CPU extends Observable implements Runnable{
 	private ReturnValues initValues;
 	private static boolean carryFlag = false;
 	private static boolean endFlag = false;
+	private static int i = 0;
 	
 	public CPU(String path){
         CodeReader reader  = new CodeReader();
@@ -54,13 +55,13 @@ public class CPU extends Observable implements Runnable{
 		this.werk = new Befehlswerk(memory, akku, registerList, counter);
 		
 		memory.initMemory(commandList, paramList);
-		int i = 0;
+		i = 0;
 		initValues = new ReturnValues(memory, counter, registerList, akku,i,carryFlag,this.endFlag);
 	}
 	
 
 	public void startAutoEmulator(){
-		int i = 0;
+		i = 0;
 		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
 
 		while(!CPU.getEndFlag()){
@@ -83,7 +84,7 @@ public class CPU extends Observable implements Runnable{
 				this.notifyObservers(returnValues);
 			}
 			returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
-			i++;		
+			incI();		
 		}
 		this.setChanged();
 		this.notifyObservers(returnValues);	
@@ -92,7 +93,7 @@ public class CPU extends Observable implements Runnable{
 	
 	private void startStepEmulator(){
 
-		int i = 0;
+		i = 0;
 		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
 
 		while(!CPU.getEndFlag()){
@@ -105,7 +106,7 @@ public class CPU extends Observable implements Runnable{
 			this.setChanged();
 			returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
 			this.notifyObservers(returnValues);
-			i++;
+			incI();
 			
 			synchronized (this) {
 				while (fPause) {
@@ -168,6 +169,10 @@ public class CPU extends Observable implements Runnable{
 
 	public static void setEndFlag(boolean endFlag) {
 		CPU.endFlag = endFlag;
+	}
+	
+	public static void incI(){
+		CPU.i++;
 	}
 
 }
