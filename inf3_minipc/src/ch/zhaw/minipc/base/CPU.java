@@ -55,13 +55,13 @@ public class CPU extends Observable implements Runnable{
 		
 		memory.initMemory(commandList, paramList);
 		int i = 0;
-		initValues = new ReturnValues(memory, counter, registerList, akku,i,carryFlag);
+		initValues = new ReturnValues(memory, counter, registerList, akku,i,carryFlag,this.endFlag);
 	}
 	
 
 	public void startAutoEmulator(){
 		int i = 0;
-		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
+		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
 
 		while(!CPU.getEndFlag()){
 			int position = counter.getPosition();
@@ -78,11 +78,11 @@ public class CPU extends Observable implements Runnable{
 
 					e.printStackTrace();
 				}
-				returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
+				returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
 				this.setChanged();
 				this.notifyObservers(returnValues);
 			}
-			returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
+			returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
 			i++;		
 		}
 		this.setChanged();
@@ -93,7 +93,7 @@ public class CPU extends Observable implements Runnable{
 	private void startStepEmulator(){
 
 		int i = 0;
-		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
+		ReturnValues returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
 
 		while(!CPU.getEndFlag()){
 			int position = counter.getPosition();
@@ -103,7 +103,7 @@ public class CPU extends Observable implements Runnable{
 			werk.excecuteCommand(command);
 			
 			this.setChanged();
-			returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag);
+			returnValues = new ReturnValues(memory, counter, registerList, akku, i,carryFlag,this.endFlag);
 			this.notifyObservers(returnValues);
 			i++;
 			

@@ -55,6 +55,8 @@ public class EmulatorGUI implements Observer{
 	private JTextField txtResultDez;
 	private Thread emuThread;
 	private CPU cpu;
+	private int param1;
+	private int param2;
 	
 	private JButton btnStep;
 	private JButton btnStart;
@@ -79,7 +81,8 @@ public class EmulatorGUI implements Observer{
 	private JTextField txtBefehlsZaehlerDez;
 	private JTextField txtBefehlsZaehlerBin;
 	private JCheckBox checkBoxCarryFlag;
-	private JTextField textField;
+	private JTextField txtResultMulDez;
+	private JTextField txtResultMulBin;
 
 	/**
 	 * Create the application.
@@ -93,7 +96,7 @@ public class EmulatorGUI implements Observer{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 920, 487);
+		frame.setBounds(100, 100, 920, 583);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
        
@@ -157,13 +160,6 @@ public class EmulatorGUI implements Observer{
 		
 		JButton btnReset = new JButton("Reset");
 		panelCommandTable.add(btnReset);
-		
-		JLabel lblResultMultiplikation = new JLabel("Result Multiplikation");
-		panelCommandTable.add(lblResultMultiplikation);
-		
-		textField = new JTextField();
-		panelCommandTable.add(textField);
-		textField.setColumns(10);
 		
 		panelRegister = new JPanel();
 		frame.getContentPane().add(panelRegister, BorderLayout.CENTER);
@@ -269,6 +265,22 @@ public class EmulatorGUI implements Observer{
 		checkBoxCarryFlag.setBounds(99, 344, 28, 23);
 		panelRegister.add(checkBoxCarryFlag);
 		
+		JLabel lblResultMul = new JLabel("Result Mul");
+		lblResultMul.setBounds(19, 418, 72, 16);
+		panelRegister.add(lblResultMul);
+		
+		txtResultMulDez = new JTextField();
+		txtResultMulDez.setEditable(false);
+		txtResultMulDez.setBounds(99, 410, 153, 28);
+		panelRegister.add(txtResultMulDez);
+		txtResultMulDez.setColumns(10);
+		
+		txtResultMulBin = new JTextField();
+		txtResultMulBin.setEditable(false);
+		txtResultMulBin.setBounds(6, 441, 246, 28);
+		panelRegister.add(txtResultMulBin);
+		txtResultMulBin.setColumns(10);
+		
         DefaultTableModel modelMemory = new DefaultTableModel();
         tableDataMemory = new JTable(modelMemory);
         tableDataMemory.setEnabled(false);
@@ -320,6 +332,8 @@ public class EmulatorGUI implements Observer{
 			btnStart.setEnabled(true);
 	    }
 	    ReturnValues returnSet = this.cpu.getInitialConifg();
+	    this.param1 = returnSet.getMemory().getDataMemoryCell(500).getDezValue();
+	    this.param2 = returnSet.getMemory().getDataMemoryCell(502).getDezValue();
 	    updateCommandTable(returnSet);
 	    updateDataTable(returnSet);
 	    
@@ -432,6 +446,18 @@ public class EmulatorGUI implements Observer{
 		else if(mode == RunModes.STEP){
 			//this.selectRow(returnSet.getProgramCounter());
 			this.cpu.pause();
+		}
+		
+		if(returnSet.getEndFlag()){
+			String cell1 = returnSet.getMemory().getDataMemoryCell(504).getBinValue();
+			String cell2 = returnSet.getMemory().getDataMemoryCell(506).getBinValue();
+			cell1 = cell1.substring(2, 16);
+			cell2 = cell2.substring(2, 16);
+			int result = this.param1*this.param2;
+			this.txtResultMulBin.setText(cell2 + cell1);
+			//this.txtResultMulDez.setText(Integer.toString(result));
+			//result = Integer.parseInt(cell2 + cell1, 2);
+			this.txtResultMulDez.setText(Integer.toString(result));
 		}
 		
 		this.frame.repaint();
