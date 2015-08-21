@@ -1,4 +1,4 @@
-inf3_minipc
-
-Test Push - Domi
+MiniPC
 ===========
+* school project
+* cpu simulation with instruction register
